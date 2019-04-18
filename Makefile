@@ -9,17 +9,17 @@ CC	=	g++
 
 DTESTS	=	tests/
 DSRC	=	src/
-DGTEST	=	gtest/
+DPARSE	=	$(DSRC)parse/
 
 DSRC_UT	=	$(DTESTS)src/
 
-SRC	=	\
+SRC	=		$(DPARSE)CommandParser.cpp	\
 
 MAIN	=	$(DSRC)main.cpp
 
-SRC_UT	=	$(wildcard $(DSRC_UT)*.cpp)		\
+SRC_UT	=	$(wildcard $(DSRC_UT)/parse/*.cpp)		\
 
-INC	=	-I.
+INC	=	-I. -I$(DSRC) -I$(DPARSE)
 
 CXXFLAGS	+=  -Wall -Wextra $(INC) -lpthread
 LDFLAGS	+=	-lgtest -lgtest_main
