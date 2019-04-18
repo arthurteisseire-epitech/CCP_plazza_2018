@@ -5,7 +5,7 @@
 ** CommandParserTest.cpp
 */
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "CommandParser.hpp"
 
 namespace plazza {
