@@ -9,8 +9,9 @@
 #include <iostream>
 #include "OrderParser.hpp"
 
-plazza::OrderParser::OrderParser(const std::string &commandLine)
+std::vector<plazza::Order> plazza::OrderParser::parseLine(const std::string &commandLine)
 {
+    std::vector<Order> orders;
     std::string end = commandLine;
     std::string command;
     size_t semiColon;
@@ -18,12 +19,13 @@ plazza::OrderParser::OrderParser(const std::string &commandLine)
     do {
         semiColon = end.find(';');
         command = end.substr(0, semiColon);
-        parseCommand(command);
+        addOrder(orders, command);
         end = end.substr(semiColon + 1);
     } while (semiColon != std::string::npos);
+    return orders;
 }
 
-void plazza::OrderParser::parseCommand(const std::string &command)
+void plazza::OrderParser::addOrder(std::vector<Order> &orders, const std::string &command)
 {
     std::regex e("^[ ]*([a-zA-Z]+) (S|M|L|XL|XXL) x([1-9][0-9]*)[ ]*$");
     std::smatch m;

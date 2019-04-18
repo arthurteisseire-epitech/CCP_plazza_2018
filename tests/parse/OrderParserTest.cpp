@@ -8,27 +8,29 @@
 #include <gtest/gtest.h>
 #include "OrderParser.hpp"
 
-namespace plazza {
-    class OrderParserTest : public ::testing::Test, public OrderParser {
-    public:
-        explicit OrderParserTest() :
-            OrderParser("regina XXL x2; fantasia L x23") {}
-    };
+static const std::string commandLine = "regina XXL x2; fantasia M x23";
 
-    TEST_F(OrderParserTest, type)
+namespace plazza {
+    TEST(OrderParserTest, type)
     {
+        auto orders = OrderParser::parseLine(commandLine);
+
         EXPECT_STREQ(orders[0].type.c_str(), "regina");
         EXPECT_STREQ(orders[1].type.c_str(), "fantasia");
     }
 
-    TEST_F(OrderParserTest, size)
+    TEST(OrderParserTest, size)
     {
+        auto orders = OrderParser::parseLine(commandLine);
+
         EXPECT_STREQ(orders[0].size.c_str(), "XXL");
-        EXPECT_STREQ(orders[1].size.c_str(), "L");
+        EXPECT_STREQ(orders[1].size.c_str(), "M");
     }
 
-    TEST_F(OrderParserTest, number)
+    TEST(OrderParserTest, number)
     {
+        auto orders = OrderParser::parseLine(commandLine);
+
         EXPECT_EQ(orders[0].number, 2);
         EXPECT_EQ(orders[1].number, 23);
     }
