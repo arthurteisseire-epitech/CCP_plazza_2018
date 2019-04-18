@@ -19,4 +19,14 @@ namespace plazza {
     {
         EXPECT_STREQ(command.type.c_str(), "regina");
     }
+
+    TEST_F(CommandParserTest, size)
+    {
+        EXPECT_STREQ(command.size.c_str(), "XXL");
+    }
+
+    TEST_F(CommandParserTest, number)
+    {
+        EXPECT_EQ(command.number, 2);
+    }
 }
