@@ -16,6 +16,7 @@ namespace plazza {
     public:
         explicit CommandParser(const std::string &commandLine);
     protected:
+        void parseCommand(const std::string &command);
         std::vector<Command> commands;
     };
 }
