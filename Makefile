@@ -11,7 +11,8 @@ DTESTS	=	tests/
 DSRC	=	src/
 DPARSE	=	$(DSRC)parse/
 
-SRC	=		$(DPARSE)CommandParser.cpp	\
+SRC	=		$(wildcard $(DSRC)*.cpp)		\
+			$(wildcard $(DPARSE)*.cpp)		\
 
 MAIN	=	main.cpp
 

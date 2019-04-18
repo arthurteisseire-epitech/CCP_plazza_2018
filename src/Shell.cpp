@@ -8,14 +8,18 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include "OrderParser.hpp"
 #include "Shell.hpp"
 #include "Order.hpp"
 
 void plazza::Shell::exec()
 {
-   std::string line;
-   std::vector<Order> orders;
+    std::string line;
+    std::vector<Order> orders;
 
-   while (getline(std::cin, line)) {
-   }
+    std::cout << "orders> ";
+    while (getline(std::cin, line)) {
+        orders = OrderParser::parseLine(line);
+        std::cout << "orders> ";
+    }
 }
