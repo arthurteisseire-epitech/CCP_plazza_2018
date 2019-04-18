@@ -15,7 +15,7 @@ DSRC_UT	=	$(DTESTS)src/
 
 SRC	=		$(DPARSE)CommandParser.cpp	\
 
-MAIN	=	$(DSRC)main.cpp
+MAIN	=	main.cpp
 
 SRC_UT	=	$(wildcard $(DSRC_UT)/parse/*.cpp)		\
 
