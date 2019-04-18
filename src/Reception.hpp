@@ -2,16 +2,16 @@
 ** EPITECH PROJECT, 2018
 ** plazza
 ** File description:
-** Shell.hpp
+** Reception.hpp
 */
 
-#ifndef PLAZZA_SHELL_HPP
-#define PLAZZA_SHELL_HPP
+#ifndef PLAZZA_RECEPTION_HPP
+#define PLAZZA_RECEPTION_HPP
 
 namespace plazza {
-    class Shell {
+    class Reception {
     public:
-        Shell() = default;
+        Reception() = default;
         void exec();
     };
 }

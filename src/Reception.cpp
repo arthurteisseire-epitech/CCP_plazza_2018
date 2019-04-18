@@ -2,17 +2,17 @@
 ** EPITECH PROJECT, 2018
 ** plazza
 ** File description:
-** Shell.cpp
+** Reception.cpp
 */
 
 #include <string>
 #include <iostream>
 #include <vector>
 #include "OrderParser.hpp"
-#include "Shell.hpp"
+#include "Reception.hpp"
 #include "Order.hpp"
 
-void plazza::Shell::exec()
+void plazza::Reception::exec()
 {
     std::string line;
     std::vector<Order> orders;

@@ -5,11 +5,11 @@
 ** main.cpp
 */
 
-#include "Shell.hpp"
+#include "Reception.hpp"
 
 int main()
 {
-    plazza::Shell shell;
+    plazza::Reception shell;
 
     shell.exec();
     return 0;
