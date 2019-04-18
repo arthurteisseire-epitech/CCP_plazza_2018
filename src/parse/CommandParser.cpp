@@ -16,9 +16,7 @@ plazza::CommandParser::CommandParser(const std::string &commandLine)
     std::string res;
 
     if (std::regex_search(commandLine, m, e)) {
-        command.type = m[2];
-        command.size = m[3];
-        command.number = std::stoi(m[4]);
+        commands.emplace_back(m[2], m[3], std::stoi(m[4]));
     } else {
         std::cerr << "not a valid command" << std::endl;
     }

@@ -17,16 +17,16 @@ namespace plazza {
 
     TEST_F(CommandParserTest, type)
     {
-        EXPECT_STREQ(command.type.c_str(), "regina");
+        EXPECT_STREQ(commands[0].type.c_str(), "regina");
     }
 
     TEST_F(CommandParserTest, size)
     {
-        EXPECT_STREQ(command.size.c_str(), "XXL");
+        EXPECT_STREQ(commands[0].size.c_str(), "XXL");
     }
 
     TEST_F(CommandParserTest, number)
     {
-        EXPECT_EQ(command.number, 2);
+        EXPECT_EQ(commands[0].number, 2);
     }
 }
