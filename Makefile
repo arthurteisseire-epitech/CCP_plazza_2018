@@ -12,6 +12,7 @@ DTESTS	=	tests/
 DSRC	=	src/
 DPARSE	=	$(DSRC)parse/
 DPIZZA	=	$(DSRC)pizza/
+DPIZZAS	=	$(DPIZZA)pizzas/
 
 SRC	=		$(wildcard $(DSRC)*.cpp)		\
 			$(wildcard $(DPARSE)*.cpp)		\
@@ -21,7 +22,7 @@ MAIN	=	main.cpp
 
 SRC_UT	=	$(wildcard $(DTESTS)parse/*.cpp)		\
 
-INC	=	-I. -I$(DSRC) -I$(DPARSE) -I $(DPIZZA)
+INC	=	-I. -I$(DSRC) -I$(DPARSE) -I$(DPIZZA) -I$(DPIZZAS)
 
 CXXFLAGS	+=  -Wall -Wextra $(INC) -lpthread
 OBJ	=	$(SRC:.cpp=.o) $(MAIN:.cpp=.o)

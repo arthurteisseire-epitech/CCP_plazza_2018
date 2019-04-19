@@ -4,7 +4,7 @@ project(plazza)
 add_compile_options(-Wall -Wextra)
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(src/pizza src/parse src .)
+include_directories(src/pizza/pizzas src/pizza src/parse src .)
 
 file(GLOB_RECURSE sources src/*.cpp src/*.hpp)
 file(GLOB_RECURSE tests tests/*.cpp)
