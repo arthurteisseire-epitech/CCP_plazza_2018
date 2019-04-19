@@ -14,9 +14,9 @@
 namespace plazza {
     class OrderParser {
     public:
-        static std::vector<Order> parseLine(const std::string &commandLine);
+        static Order parseLine(const std::string &commandLine);
     private:
-        static void addOrder(std::vector<Order> &orders, const std::string &command);
+        static void addPizza(Order &orders, const std::string &command);
     };
 }
 

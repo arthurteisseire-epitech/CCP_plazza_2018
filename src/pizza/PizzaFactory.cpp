@@ -8,11 +8,19 @@
 #include "PizzaMargarita.hpp"
 #include "PizzaFactory.hpp"
 
-const plazza::PizzaFactory::pizzaMap plazza::PizzaFactory::_pizzas = {
-    {Margarita, [](PizzaSize size) { return std::make_unique<PizzaMargarita>(size); }},
+const std::map<std::string, plazza::PizzaSize> plazza::PizzaFactory::_sizes = {
+    {"S", S},
+    {"M", M},
+    {"L", L},
+    {"XL", XL},
+    {"XXL", XXL},
 };
 
-std::unique_ptr<plazza::IPizza> plazza::PizzaFactory::create(PizzaType type, PizzaSize size) const
+const plazza::PizzaFactory::pizzaMap plazza::PizzaFactory::_pizzas = {
+    {"margarita", [](PizzaSize size) { return std::make_unique<PizzaMargarita>(size); }},
+};
+
+std::unique_ptr<plazza::IPizza> plazza::PizzaFactory::create(const std::string &type, const std::string &size) const
 {
-    return _pizzas.at(type)(size);
+    return _pizzas.at(type)(_sizes.at(size));
 }

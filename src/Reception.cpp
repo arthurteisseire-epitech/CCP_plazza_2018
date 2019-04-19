@@ -15,11 +15,11 @@
 void plazza::Reception::exec()
 {
     std::string line;
-    std::vector<Order> orders;
+    Order order;
 
     std::cout << "orders> ";
     while (getline(std::cin, line)) {
-        orders = OrderParser::parseLine(line);
+        order = OrderParser::parseLine(line);
         std::cout << "orders> ";
     }
 }
