@@ -10,6 +10,7 @@
 #include "PizzaRegina.hpp"
 #include "PizzaAmericana.hpp"
 #include "PizzaFantasia.hpp"
+#include "PizzaException.hpp"
 
 const std::map<std::string, plazza::PizzaSize> plazza::PizzaFactory::_sizes = {
     {"S",   S},
@@ -28,5 +29,12 @@ const plazza::PizzaFactory::pizzaMap plazza::PizzaFactory::_pizzas = {
 
 std::unique_ptr<plazza::IPizza> plazza::PizzaFactory::create(const std::string &type, const std::string &size) const
 {
-    return _pizzas.at(type)(_sizes.at(size));
+    auto itFunc = _pizzas.find(type);
+    auto itSize = _sizes.find(size);
+
+    if (itFunc == _pizzas.end())
+        throw PizzaException(type + " isn't a valid pizza");
+    if (itSize == _sizes.end())
+        throw PizzaException(size + " isn't a valid size");
+    return itFunc->second(itSize->second);
 }

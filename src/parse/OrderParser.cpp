@@ -27,12 +27,12 @@ plazza::Order plazza::OrderParser::parseLine(const std::string &commandLine)
 
 void plazza::OrderParser::addPizza(Order &order, const std::string &command)
 {
-    std::regex e("^[ ]*([a-zA-Z]+) (S|M|L|XL|XXL) x([1-9][0-9]*)[ ]*$");
+    std::regex e("^[ ]*([a-zA-Z]+) ([a-zA-Z]+) x([1-9][0-9]*)[ ]*$");
     std::smatch m;
     std::string res;
 
     if (std::regex_search(command, m, e))
         order.addPizza(m[1], m[2], std::stoi(m[3]));
     else
-        std::cerr << command << ": not a valid command" << std::endl;
+        std::cerr << command << ": invalid command" << std::endl;
 }
