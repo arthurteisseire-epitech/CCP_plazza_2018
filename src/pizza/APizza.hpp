@@ -10,6 +10,7 @@
 
 #include <string>
 #include <vector>
+#include <chrono>
 #include "IPizza.hpp"
 #include "PizzaType.hpp"
 #include "Ingredient.hpp"
@@ -18,11 +19,12 @@
 namespace plazza {
     class APizza : public IPizza {
     protected:
-        APizza(PizzaType type, PizzaSize size, std::vector<Ingredient> ingredients);
+        APizza(PizzaType type, PizzaSize size, std::vector<Ingredient> ingredients, std::chrono::duration<double> time);
     private:
         PizzaType _type;
         PizzaSize _size;
         const std::vector<Ingredient> _ingredients;
+        std::chrono::duration<double> _time;
     };
 }
 

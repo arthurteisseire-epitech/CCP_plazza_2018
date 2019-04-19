@@ -19,4 +19,5 @@ namespace plazza {
         static void addOrder(std::vector<Order> &orders, const std::string &command);
     };
 }
+
 #endif
