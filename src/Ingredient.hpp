@@ -14,6 +14,7 @@ namespace plazza {
         TOMATOE,
         GRUYERE,
         HAM,
+        MUSHROOMS,
         STEAK,
         EGGPLANT,
         GOAT_CHEESE,
