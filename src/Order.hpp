@@ -8,6 +8,7 @@
 #ifndef PLAZZA_ORDER_HPP
 #define PLAZZA_ORDER_HPP
 
+#include <gtest/gtest_prod.h>
 #include <string>
 #include <vector>
 #include "IPizza.hpp"
@@ -21,6 +22,9 @@ namespace plazza {
     private:
         std::vector<std::unique_ptr<IPizza>> _pizzas;
         PizzaFactory _factory;
+
+        FRIEND_TEST(Order, addPizza);
+        FRIEND_TEST(Order, parseOrder);
     };
 }
 

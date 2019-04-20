@@ -20,7 +20,7 @@ SRC	=		$(wildcard $(DSRC)*.cpp)		\
 
 MAIN	=	main.cpp
 
-SRC_UT	=	$(wildcard $(DTESTS)parse/*.cpp)		\
+SRC_UT	=	$(wildcard $(DTESTS)*.cpp)		\
 
 INC	=	-I. -I$(DSRC) -I$(DPARSE) -I$(DPIZZA) -I$(DPIZZAS)
 
