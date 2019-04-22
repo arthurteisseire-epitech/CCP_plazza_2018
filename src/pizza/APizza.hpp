@@ -8,6 +8,7 @@
 #ifndef PLAZZA_APIZZA_HPP
 #define PLAZZA_APIZZA_HPP
 
+#include <gtest/gtest_prod.h>
 #include <string>
 #include <vector>
 #include <chrono>
@@ -25,6 +26,8 @@ namespace plazza {
         PizzaSize _size;
         const std::vector<Ingredient> _ingredients;
         double _time;
+
+        FRIEND_TEST(PizzaTest, create);
     };
 }
 
