@@ -24,13 +24,14 @@ namespace plazza {
 
     TEST(PizzaTest, prepare)
     {
-        Stock stock(5);
+        Stock stock(1);
         PizzaMargarita margarita(L);
 
         ASSERT_TRUE(margarita.prepare(stock));
-        ASSERT_EQ(stock.count(DOE), 4);
-        ASSERT_EQ(stock.count(TOMATOE), 4);
-        ASSERT_EQ(stock.count(GRUYERE), 4);
-        ASSERT_EQ(stock.count(CHIEF_LOVE), 5);
+        ASSERT_EQ(stock.count(DOE), 0);
+        ASSERT_EQ(stock.count(TOMATOE), 0);
+        ASSERT_EQ(stock.count(GRUYERE), 0);
+        ASSERT_EQ(stock.count(CHIEF_LOVE), 1);
+        ASSERT_FALSE(margarita.prepare(stock));
     }
 }
