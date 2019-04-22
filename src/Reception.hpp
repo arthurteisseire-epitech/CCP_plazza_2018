@@ -14,7 +14,7 @@ namespace plazza {
         Reception(double cookingTime, size_t nbCooks, size_t timeToReplaceIngredient);
         void open();
     private:
-        double _cookingTime;
+        double _cookingTimeMultiplier;
         size_t _nbCooks;
         size_t _timeToReplaceIngredient;
     };

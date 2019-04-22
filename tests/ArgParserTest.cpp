@@ -16,7 +16,7 @@ namespace plazza {
         ArgParser parser(ac, av);
 
         EXPECT_FALSE(parser.failed());
-        EXPECT_EQ(parser.getCookingTime(), 2);
+        EXPECT_EQ(parser.getCookingTimeMultiplier(), 2);
         EXPECT_EQ(parser.getNbCooks(), 5);
         EXPECT_EQ(parser.getTimeToReplaceIngredient(), 2000);
     }

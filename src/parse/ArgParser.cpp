@@ -21,7 +21,7 @@ plazza::ArgParser::ArgParser(int ac, const char *av[]) :
 void plazza::ArgParser::parseArgs(const char *av[])
 {
     try {
-        _cookingTime = std::stod(av[1]);
+        _cookingTimeMultiplier = std::stod(av[1]);
         _nbCooks = std::stoul(av[2]);
         _timeToReplaceIngredient = std::stoul(av[3]);
     } catch (const std::exception &) {
@@ -29,9 +29,9 @@ void plazza::ArgParser::parseArgs(const char *av[])
     }
 }
 
-double plazza::ArgParser::getCookingTime() const
+double plazza::ArgParser::getCookingTimeMultiplier() const
 {
-    return _cookingTime;
+    return _cookingTimeMultiplier;
 }
 
 size_t plazza::ArgParser::getNbCooks() const

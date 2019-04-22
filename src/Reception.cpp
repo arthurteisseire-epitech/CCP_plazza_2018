@@ -13,7 +13,7 @@
 #include "Order.hpp"
 
 plazza::Reception::Reception(double cookingTime, size_t nbCooks, size_t timeToReplaceIngredient) :
-    _cookingTime(cookingTime),
+    _cookingTimeMultiplier(cookingTime),
     _nbCooks(nbCooks),
     _timeToReplaceIngredient(timeToReplaceIngredient)
 {

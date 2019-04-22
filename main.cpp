@@ -21,7 +21,7 @@ static plazza::ArgParser parseArgs(int ac, const char *av[])
 int main(int ac, const char *av[])
 {
     plazza::ArgParser parser = parseArgs(ac, av);
-    plazza::Reception reception(parser.getCookingTime(), parser.getNbCooks(), parser.getTimeToReplaceIngredient());
+    plazza::Reception reception(parser.getCookingTimeMultiplier(), parser.getNbCooks(), parser.getTimeToReplaceIngredient());
 
     reception.open();
     return 0;
