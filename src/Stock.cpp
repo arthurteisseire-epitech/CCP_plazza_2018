@@ -22,5 +22,20 @@ plazza::Stock::Stock(size_t quantity)
 
 size_t plazza::Stock::count(plazza::Ingredient ingredient)
 {
-    return _ingredients.at(ingredient);
+    auto it = _ingredients.find(ingredient);
+
+    if (it == _ingredients.end())
+        return 0;
+    return it->second;
+}
+
+bool plazza::Stock::take(size_t quantity, plazza::Ingredient ingredient)
+{
+    auto it = _ingredients.find(ingredient);
+
+    if (it->second >= quantity) {
+        it->second -= quantity;
+        return true;
+    }
+    return false;
 }

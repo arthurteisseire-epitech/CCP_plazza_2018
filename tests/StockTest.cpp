@@ -23,4 +23,14 @@ namespace plazza {
         ASSERT_EQ(stock.count(GOAT_CHEESE), 5);
         ASSERT_EQ(stock.count(CHIEF_LOVE), 5);
     }
+
+    TEST(StockTest, take)
+    {
+        Stock stock(5);
+
+        ASSERT_TRUE(stock.take(3, DOE));
+        ASSERT_EQ(stock.count(DOE), 2);
+        ASSERT_FALSE(stock.take(3, DOE));
+        ASSERT_EQ(stock.count(DOE), 2);
+    }
 }
