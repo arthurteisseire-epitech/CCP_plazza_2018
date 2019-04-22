@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <chrono>
+#include "Stock.hpp"
 #include "IPizza.hpp"
 #include "PizzaType.hpp"
 #include "Ingredient.hpp"
@@ -19,6 +20,8 @@
 
 namespace plazza {
     class APizza : public IPizza {
+    public:
+        bool prepare(Stock &stock) const;
     protected:
         APizza(PizzaType type, PizzaSize size, std::vector<Ingredient> ingredients, double time);
     private:

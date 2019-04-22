@@ -20,7 +20,7 @@ plazza::Stock::Stock(size_t quantity)
     _ingredients.emplace(CHIEF_LOVE, quantity);
 }
 
-size_t plazza::Stock::count(plazza::Ingredient ingredient)
+size_t plazza::Stock::count(Ingredient ingredient)
 {
     auto it = _ingredients.find(ingredient);
 
@@ -29,13 +29,28 @@ size_t plazza::Stock::count(plazza::Ingredient ingredient)
     return it->second;
 }
 
-bool plazza::Stock::take(size_t quantity, plazza::Ingredient ingredient)
+bool plazza::Stock::take(plazza::Ingredient ingredient)
+{
+    return take(1, ingredient);
+}
+
+bool plazza::Stock::take(size_t quantity, Ingredient ingredient)
+{
+    bool containsIngredient = contains(quantity, ingredient);
+
+    if (containsIngredient)
+        _ingredients.at(ingredient) -= quantity;
+    return containsIngredient;
+}
+
+bool plazza::Stock::contains(plazza::Ingredient ingredient) const
+{
+    return contains(1, ingredient);
+}
+
+bool plazza::Stock::contains(size_t quantity, Ingredient ingredient) const
 {
     auto it = _ingredients.find(ingredient);
 
-    if (it->second >= quantity) {
-        it->second -= quantity;
-        return true;
-    }
-    return false;
+    return it != _ingredients.end() && it->second >= quantity;
 }
