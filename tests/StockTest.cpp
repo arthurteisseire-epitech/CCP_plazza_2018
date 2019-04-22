@@ -11,7 +11,7 @@
 namespace plazza {
     TEST(StockTest, create)
     {
-        Stock stock;
+        Stock stock(5);
 
         ASSERT_EQ(stock.count(DOE), 5);
         ASSERT_EQ(stock.count(TOMATOE), 5);

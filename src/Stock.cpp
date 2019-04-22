@@ -7,17 +7,17 @@
 
 #include "Stock.hpp"
 
-plazza::Stock::Stock()
+plazza::Stock::Stock(size_t quantity)
 {
-    _ingredients.emplace(DOE, 5);
-    _ingredients.emplace(TOMATOE, 5);
-    _ingredients.emplace(GRUYERE, 5);
-    _ingredients.emplace(HAM, 5);
-    _ingredients.emplace(MUSHROOMS, 5);
-    _ingredients.emplace(STEAK, 5);
-    _ingredients.emplace(EGGPLANT, 5);
-    _ingredients.emplace(GOAT_CHEESE, 5);
-    _ingredients.emplace(CHIEF_LOVE, 5);
+    _ingredients.emplace(DOE, quantity);
+    _ingredients.emplace(TOMATOE, quantity);
+    _ingredients.emplace(GRUYERE, quantity);
+    _ingredients.emplace(HAM, quantity);
+    _ingredients.emplace(MUSHROOMS, quantity);
+    _ingredients.emplace(STEAK, quantity);
+    _ingredients.emplace(EGGPLANT, quantity);
+    _ingredients.emplace(GOAT_CHEESE, quantity);
+    _ingredients.emplace(CHIEF_LOVE, quantity);
 }
 
 size_t plazza::Stock::count(plazza::Ingredient ingredient)

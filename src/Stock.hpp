@@ -14,7 +14,7 @@
 namespace plazza {
     class Stock {
     public:
-        Stock();
+        explicit Stock(size_t quantity);
         size_t count(Ingredient ingredient);
     private:
         std::map<Ingredient, size_t> _ingredients;
