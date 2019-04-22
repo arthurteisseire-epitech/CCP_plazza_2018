@@ -12,7 +12,14 @@
 #include "Reception.hpp"
 #include "Order.hpp"
 
-void plazza::Reception::exec()
+plazza::Reception::Reception(double cookingTime, size_t nbCooks, size_t timeToReplaceIngredient) :
+    _cookingTime(cookingTime),
+    _nbCooks(nbCooks),
+    _timeToReplaceIngredient(timeToReplaceIngredient)
+{
+}
+
+void plazza::Reception::open()
 {
     std::string line;
     Order order;

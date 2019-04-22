@@ -11,8 +11,12 @@
 namespace plazza {
     class Reception {
     public:
-        Reception() = default;
-        void exec();
+        Reception(double cookingTime, size_t nbCooks, size_t timeToReplaceIngredient);
+        void open();
+    private:
+        double _cookingTime;
+        size_t _nbCooks;
+        size_t _timeToReplaceIngredient;
     };
 }
 
