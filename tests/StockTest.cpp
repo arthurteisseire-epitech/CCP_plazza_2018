@@ -52,4 +52,13 @@ namespace plazza {
         ASSERT_TRUE(stock.take(DOE));
         ASSERT_EQ(stock.count(DOE), 1);
     }
+
+    TEST(StockTest, takeEach)
+    {
+        Stock stock(1);
+        std::vector<Ingredient> ingredients = {DOE, TOMATOE, GRUYERE};
+
+        ASSERT_TRUE(stock.takeEach(ingredients));
+        ASSERT_FALSE(stock.takeEach(ingredients));
+    }
 }

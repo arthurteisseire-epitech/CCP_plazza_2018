@@ -43,6 +43,16 @@ bool plazza::Stock::take(size_t quantity, Ingredient ingredient)
     return containsIngredient;
 }
 
+bool plazza::Stock::takeEach(const std::vector<plazza::Ingredient> &ingredients)
+{
+    bool containsEachIngredients = containsEach(ingredients);
+
+    if (containsEachIngredients)
+        for (const auto &i : ingredients)
+            take(i);
+    return containsEachIngredients;
+}
+
 bool plazza::Stock::contains(plazza::Ingredient ingredient) const
 {
     return contains(1, ingredient);

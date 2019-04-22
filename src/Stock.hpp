@@ -19,6 +19,7 @@ namespace plazza {
         size_t count(Ingredient ingredient);
         bool take(Ingredient ingredient);
         bool take(size_t quantity, Ingredient ingredient);
+        bool takeEach(const std::vector<Ingredient> &ingredients);
         bool contains(Ingredient ingredient) const;
         bool contains(size_t quantity, Ingredient ingredient) const;
         bool containsEach(const std::vector<Ingredient> &ingredients) const;
