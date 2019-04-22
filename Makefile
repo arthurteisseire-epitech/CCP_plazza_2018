@@ -24,7 +24,7 @@ SRC_UT	=	$(wildcard $(DTESTS)*.cpp)		\
 
 INC	=	-I. -I$(DSRC) -I$(DPARSE) -I$(DPIZZA) -I$(DPIZZAS)
 
-CXXFLAGS	+=  -Wall -Wextra $(INC) -lpthread
+CXXFLAGS	+=  -Wall -Wextra $(INC)
 OBJ	=	$(SRC:.cpp=.o) $(MAIN:.cpp=.o)
 NAME	=	plazza
 NAME_UT	=	units
