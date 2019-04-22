@@ -8,6 +8,8 @@
 #ifndef PLAZZA_IPIZZA_HPP
 #define PLAZZA_IPIZZA_HPP
 
+#include "Stock.hpp"
+
 namespace plazza {
     class IPizza {
     public:

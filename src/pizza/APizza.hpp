@@ -12,7 +12,6 @@
 #include <string>
 #include <vector>
 #include <chrono>
-#include "Stock.hpp"
 #include "IPizza.hpp"
 #include "PizzaType.hpp"
 #include "Ingredient.hpp"
