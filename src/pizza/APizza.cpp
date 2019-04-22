@@ -19,13 +19,5 @@ plazza::APizza::APizza(plazza::PizzaType type, plazza::PizzaSize size,
 
 bool plazza::APizza::prepare(Stock &stock) const
 {
-    bool containsAllIngredients = true;
-
-    for (const auto &i : _ingredients)
-        if (!stock.contains(i))
-            containsAllIngredients = false;
-    if (containsAllIngredients)
-        for (const auto &i : _ingredients)
-            stock.take(i);
-    return containsAllIngredients;
+    return stock.takeEach(_ingredients);
 }
