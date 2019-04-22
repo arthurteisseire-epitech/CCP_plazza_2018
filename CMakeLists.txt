@@ -6,7 +6,11 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(src/pizza/pizzas src/pizza src/parse src .)
 
+file(GLOB_RECURSE main main.cpp)
 file(GLOB_RECURSE sources src/*.cpp src/*.hpp)
 file(GLOB_RECURSE tests tests/*.cpp)
-add_executable(${CMAKE_PROJECT_NAME} ${sources} ${tests})
-target_link_libraries(${CMAKE_PROJECT_NAME} pthread gtest gtest_main)
+add_executable(${CMAKE_PROJECT_NAME} ${sources} ${main})
+target_link_libraries(${CMAKE_PROJECT_NAME})
+
+add_executable(tests ${sources} ${tests})
+target_link_libraries(tests gtest gtest_main)
