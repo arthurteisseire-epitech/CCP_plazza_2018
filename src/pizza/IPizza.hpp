@@ -13,7 +13,7 @@
 namespace plazza {
     class IPizza {
     public:
-        ~IPizza() = default;
+        virtual ~IPizza() = default;
         virtual bool prepare(Stock &stock) const = 0;
     };
 }
