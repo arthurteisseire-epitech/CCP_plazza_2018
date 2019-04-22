@@ -21,7 +21,7 @@ plazza::ArgParser::ArgParser(int ac, const char *av[]) :
 void plazza::ArgParser::parseArgs(const char *av[])
 {
     try {
-        _cookingTime = std::stoi(av[1]);
+        _cookingTime = std::stod(av[1]);
         _nbCooks = std::stoul(av[2]);
         _timeToReplaceIngredient = std::stoul(av[3]);
     } catch (const std::exception &) {
