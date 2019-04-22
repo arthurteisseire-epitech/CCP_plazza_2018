@@ -17,7 +17,7 @@ namespace plazza {
             APizza(PizzaType::Margarita,
                    size,
                    {DOE, TOMATOE, GRUYERE, STEAK},
-                   std::chrono::duration<double>(2))
+                   2.0f)
         {}
     };
 }

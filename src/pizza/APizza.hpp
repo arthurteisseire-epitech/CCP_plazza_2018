@@ -19,12 +19,12 @@
 namespace plazza {
     class APizza : public IPizza {
     protected:
-        APizza(PizzaType type, PizzaSize size, std::vector<Ingredient> ingredients, std::chrono::duration<double> time);
+        APizza(PizzaType type, PizzaSize size, std::vector<Ingredient> ingredients, double time);
     private:
         PizzaType _type;
         PizzaSize _size;
         const std::vector<Ingredient> _ingredients;
-        std::chrono::duration<double> _time;
+        double _time;
     };
 }
 
