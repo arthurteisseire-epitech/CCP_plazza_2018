@@ -54,3 +54,11 @@ bool plazza::Stock::contains(size_t quantity, Ingredient ingredient) const
 
     return it != _ingredients.end() && it->second >= quantity;
 }
+
+bool plazza::Stock::containsEach(const std::vector<plazza::Ingredient> &ingredients) const
+{
+    for (const auto &i : ingredients)
+        if (!contains(i))
+            return false;
+    return true;
+}

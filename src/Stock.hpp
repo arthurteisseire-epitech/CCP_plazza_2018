@@ -9,6 +9,7 @@
 #define PLAZZA_STOCK_HPP
 
 #include <map>
+#include <vector>
 #include "Ingredient.hpp"
 
 namespace plazza {
@@ -20,6 +21,7 @@ namespace plazza {
         bool take(size_t quantity, Ingredient ingredient);
         bool contains(Ingredient ingredient) const;
         bool contains(size_t quantity, Ingredient ingredient) const;
+        bool containsEach(const std::vector<Ingredient> &ingredients) const;
     private:
         std::map<Ingredient, size_t> _ingredients;
     };
