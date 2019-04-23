@@ -23,7 +23,7 @@ void plazza::ArgParser::parseArgs(const char *av[])
     try {
         _cookingTimeMultiplier = std::stod(av[1]);
         _nbCooks = std::stoul(av[2]);
-        _timeToReplaceIngredient = std::stoul(av[3]);
+        _timeToReplaceIngredient = std::stoul(av[3]) * 1000;
     } catch (const std::exception &) {
         _failed = true;
     }
