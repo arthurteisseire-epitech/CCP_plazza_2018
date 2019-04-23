@@ -9,11 +9,11 @@
 #include "APizza.hpp"
 
 plazza::APizza::APizza(plazza::PizzaType type, plazza::PizzaSize size,
-                       std::vector<plazza::Ingredient> ingredients, double time) :
+                       std::vector<plazza::Ingredient> ingredients, size_t time) :
     _type(type),
     _size(size),
     _ingredients(std::move(ingredients)),
-    _time(time)
+    _time(time * 1000000)
 {
 }
 
