@@ -9,6 +9,9 @@
 #include "ArgParser.hpp"
 
 plazza::ArgParser::ArgParser(int ac, const char *av[]) :
+    _cookingTimeMultiplier(0),
+    _nbCooks(0),
+    _timeToReplaceIngredient(0),
     _failed(false)
 {
     if (ac != 4) {
