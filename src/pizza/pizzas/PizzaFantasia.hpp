@@ -14,10 +14,10 @@ namespace plazza {
     class PizzaFantasia : public APizza {
     public:
         explicit PizzaFantasia(PizzaSize size) :
-            APizza(PizzaType::Margarita,
+            APizza(Fantasia,
                    size,
                    {DOE, TOMATOE, EGGPLANT, GOAT_CHEESE, CHIEF_LOVE},
-                   4.0f)
+                   4)
         {}
     };
 }
