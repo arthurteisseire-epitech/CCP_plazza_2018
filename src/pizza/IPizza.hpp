@@ -9,12 +9,14 @@
 #define PLAZZA_IPIZZA_HPP
 
 #include "Stock.hpp"
+#include "SerializedPizza.hpp"
 
 namespace plazza {
     class IPizza {
     public:
         virtual ~IPizza() = default;
         virtual bool prepare(Stock &stock) const = 0;
+        virtual SerializedPizza pack() const = 0;
     };
 }
 

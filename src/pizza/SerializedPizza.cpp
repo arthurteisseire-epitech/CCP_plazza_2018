@@ -7,7 +7,7 @@
 
 #include "SerializedPizza.hpp"
 
-plazza::SerializedPizza::SerializedPizza(plazza::PizzaType type, plazza::PizzaSize size) :
+plazza::SerializedPizza::SerializedPizza(PizzaType type, PizzaSize size) :
     _type(type),
     _size(size)
 {

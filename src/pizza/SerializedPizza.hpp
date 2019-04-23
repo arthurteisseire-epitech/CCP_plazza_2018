@@ -21,6 +21,7 @@ namespace plazza {
         PizzaSize _size;
 
         FRIEND_TEST(SerializedPizzaTest, create);
+        FRIEND_TEST(SerializedPizzaTest, pack);
     };
 }
 

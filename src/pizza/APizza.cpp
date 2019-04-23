@@ -21,3 +21,8 @@ bool plazza::APizza::prepare(Stock &stock) const
 {
     return stock.takeEach(_ingredients);
 }
+
+plazza::SerializedPizza plazza::APizza::pack() const
+{
+    return {_type, _size};
+}

@@ -6,6 +6,7 @@
 */
 
 #include <gtest/gtest.h>
+#include "PizzaAmericana.hpp"
 #include "SerializedPizza.hpp"
 #include "PizzaType.hpp"
 #include "PizzaSize.hpp"
@@ -17,5 +18,14 @@ namespace plazza {
 
         ASSERT_EQ(serializedPizza._type, PizzaType::Margarita);
         ASSERT_EQ(serializedPizza._size, PizzaSize::L);
+    }
+
+    TEST(SerializedPizzaTest, pack)
+    {
+        PizzaAmericana americana(XL);
+        SerializedPizza serializedPizza = americana.pack();
+
+        EXPECT_EQ(serializedPizza._type, Americana);
+        EXPECT_EQ(serializedPizza._size, XL);
     }
 }
