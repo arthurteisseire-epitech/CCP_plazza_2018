@@ -22,5 +22,5 @@ void plazza::Kitchen::exec()
     char buff[4096] = "hih";
     int nbBytes = read(_readFd, buff + 3, sizeof(buff));
 
-    write(1, buff, nbBytes + 3);
+    write(_writeFd, buff, nbBytes + 3);
 }

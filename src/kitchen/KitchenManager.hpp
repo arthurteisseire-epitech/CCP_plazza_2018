@@ -22,6 +22,7 @@ namespace plazza {
 
         std::vector<Process<Kitchen>> _processes;
         int _nbCooks;
+        int _sockets[2];
 
         FRIEND_TEST(KitchenManagerTest, create);
     };
