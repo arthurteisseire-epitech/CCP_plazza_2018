@@ -15,13 +15,14 @@
 namespace plazza {
     class KitchenManager {
     public:
-        KitchenManager();
+        explicit KitchenManager(size_t nbCooks);
         void sendOrder(const Order &order);
     private:
         void createKitchen();
 
-        Process _process;
-        std::vector<int> _kitchensFd;
+        std::vector<Process<Kitchen>> _processes;
+        int _nbCooks;
+
         FRIEND_TEST(KitchenManagerTest, create);
     };
 }

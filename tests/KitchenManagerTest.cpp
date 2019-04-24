@@ -13,10 +13,10 @@ namespace plazza {
     TEST(KitchenManagerTest, create)
     {
         Order order;
-        KitchenManager manager;
+        KitchenManager manager(1);
 
         order.addPizza("regina", "XL", 1);
         manager.createKitchen();
-        EXPECT_EQ(manager._kitchensFd.size(), 1);
+        EXPECT_EQ(manager._processes.size(), 1);
     }
 }

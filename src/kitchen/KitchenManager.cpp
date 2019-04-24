@@ -10,18 +10,19 @@
 #include "KitchenManager.hpp"
 #include "Kitchen.hpp"
 
-plazza::KitchenManager::KitchenManager() :
-    _process(1)
+plazza::KitchenManager::KitchenManager(size_t nbCooks) :
+    _nbCooks(nbCooks)
 {
 }
 
 void plazza::KitchenManager::sendOrder(const Order &)
 {
     createKitchen();
-    _process.send("hey");
+    _processes[0].send("hey");
 }
 
 void plazza::KitchenManager::createKitchen()
 {
-    _process.exec();
+    _processes.emplace_back(1);
+    _processes[0].exec(_nbCooks);
 }
