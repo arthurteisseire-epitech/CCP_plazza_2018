@@ -6,6 +6,7 @@
 */
 
 #include <gtest/gtest.h>
+#include "PizzaFantasia.hpp"
 #include "PizzaAmericana.hpp"
 #include "SerializedPizza.hpp"
 #include "PizzaType.hpp"
@@ -33,5 +34,9 @@ namespace plazza {
     {
         SerializedPizza serializedPizza(Fantasia, XXL);
         IPizza *pizza = serializedPizza.unpack();
+        auto pizzaFantasia = dynamic_cast<PizzaFantasia *>(pizza);
+
+        EXPECT_EQ(pizzaFantasia->_type, Fantasia);
+        EXPECT_EQ(pizzaFantasia->_size, XXL);
     }
 }

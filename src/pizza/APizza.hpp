@@ -31,6 +31,7 @@ namespace plazza {
         double _time;
 
         FRIEND_TEST(PizzaTest, create);
+        FRIEND_TEST(SerializedPizzaTest, unpack);
     };
 }
 
