@@ -28,4 +28,10 @@ namespace plazza {
         EXPECT_EQ(serializedPizza._type, Americana);
         EXPECT_EQ(serializedPizza._size, XL);
     }
+
+    TEST(SerializedPizzaTest, unpack)
+    {
+        SerializedPizza serializedPizza(Fantasia, XXL);
+        IPizza *pizza = serializedPizza.unpack();
+    }
 }

@@ -11,11 +11,14 @@
 #include <gtest/gtest_prod.h>
 #include "PizzaSize.hpp"
 #include "PizzaType.hpp"
+#include "SerializedPizza.hpp"
 
 namespace plazza {
+    class IPizza;
     class SerializedPizza {
     public:
         SerializedPizza(PizzaType type, PizzaSize size);
+        IPizza *unpack() const;
     private:
         PizzaType _type;
         PizzaSize _size;
