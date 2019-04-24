@@ -18,11 +18,12 @@
 namespace plazza {
     class PizzaFactory {
     public:
-        PizzaFactory() = default;
-        std::unique_ptr<IPizza> create(const std::string &type, const std::string &size) const;
+        static IPizza *create(const std::string &type, const std::string &size);
+        static IPizza *create(PizzaType type, PizzaSize size);
     private:
+        static const std::map<std::string, PizzaType> _types;
         static const std::map<std::string, PizzaSize> _sizes;
-        typedef std::map<std::string, std::function<std::unique_ptr<IPizza>(PizzaSize)>> pizzaMap;
+        typedef std::map<PizzaType, std::function<IPizza *(PizzaSize)>> pizzaMap;
         static const pizzaMap _pizzas;
     };
 }

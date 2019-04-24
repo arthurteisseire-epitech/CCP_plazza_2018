@@ -12,6 +12,13 @@
 #include "PizzaFantasia.hpp"
 #include "PizzaException.hpp"
 
+const std::map<std::string, plazza::PizzaType> plazza::PizzaFactory::_types = {
+    {"regina",    Regina},
+    {"margarita", Margarita},
+    {"americana", Americana},
+    {"fantasia",  Fantasia},
+};
+
 const std::map<std::string, plazza::PizzaSize> plazza::PizzaFactory::_sizes = {
     {"S",   S},
     {"M",   M},
@@ -21,20 +28,25 @@ const std::map<std::string, plazza::PizzaSize> plazza::PizzaFactory::_sizes = {
 };
 
 const plazza::PizzaFactory::pizzaMap plazza::PizzaFactory::_pizzas = {
-    {"regina",    [](PizzaSize size) { return std::make_unique<PizzaRegina>(size); }},
-    {"margarita", [](PizzaSize size) { return std::make_unique<PizzaMargarita>(size); }},
-    {"americana", [](PizzaSize size) { return std::make_unique<PizzaAmericana>(size); }},
-    {"fantasia",  [](PizzaSize size) { return std::make_unique<PizzaFantasia>(size); }},
+    {Regina,    [](PizzaSize size) { return new PizzaRegina(size); }},
+    {Margarita, [](PizzaSize size) { return new PizzaMargarita(size); }},
+    {Americana, [](PizzaSize size) { return new PizzaAmericana(size); }},
+    {Fantasia,  [](PizzaSize size) { return new PizzaFantasia(size); }},
 };
 
-std::unique_ptr<plazza::IPizza> plazza::PizzaFactory::create(const std::string &type, const std::string &size) const
+plazza::IPizza *plazza::PizzaFactory::create(const std::string &type, const std::string &size)
 {
-    auto itFunc = _pizzas.find(type);
+    auto itType = _types.find(type);
     auto itSize = _sizes.find(size);
 
-    if (itFunc == _pizzas.end())
-        throw PizzaException(type + " isn't a valid pizza");
+    if (itType == _types.end())
+        throw PizzaException(type + " isn't a valid type");
     if (itSize == _sizes.end())
         throw PizzaException(size + " isn't a valid size");
-    return itFunc->second(itSize->second);
+    return create(itType->second, itSize->second);
+}
+
+plazza::IPizza *plazza::PizzaFactory::create(PizzaType type, PizzaSize size)
+{
+    return _pizzas.at(type)(size);
 }
