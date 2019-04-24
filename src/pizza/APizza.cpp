@@ -13,7 +13,7 @@ plazza::APizza::APizza(plazza::PizzaType type, plazza::PizzaSize size,
     _type(type),
     _size(size),
     _ingredients(std::move(ingredients)),
-    _time(time * 1000000)
+    _time(time * 1000)
 {
 }
 

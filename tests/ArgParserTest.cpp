@@ -18,7 +18,7 @@ namespace plazza {
         EXPECT_FALSE(parser.failed());
         EXPECT_EQ(parser.getCookingTimeMultiplier(), 2);
         EXPECT_EQ(parser.getNbCooks(), 5);
-        EXPECT_EQ(parser.getTimeToReplaceIngredient(), 2000000);
+        EXPECT_EQ(parser.getTimeToReplaceIngredient(), 2000);
     }
 
     TEST(ArgParser, invalidNbArgs)
