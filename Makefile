@@ -12,17 +12,19 @@ DTESTS	=	tests/
 DSRC	=	src/
 DPARSE	=	$(DSRC)parse/
 DPIZZA	=	$(DSRC)pizza/
+DKITCH	=	$(DSRC)kitchen/
 DPIZZAS	=	$(DPIZZA)pizzas/
 
 SRC	=		$(wildcard $(DSRC)*.cpp)		\
 			$(wildcard $(DPARSE)*.cpp)		\
 			$(wildcard $(DPIZZA)*.cpp)		\
+			$(wildcard $(DKITCH)*.cpp)		\
 
 MAIN	=	main.cpp
 
 SRC_UT	=	$(wildcard $(DTESTS)*.cpp)		\
 
-INC	=	-I. -I$(DSRC) -I$(DPARSE) -I$(DPIZZA) -I$(DPIZZAS)
+INC	=	-I. -I$(DSRC) -I$(DPARSE) -I$(DPIZZA) -I$(DPIZZAS) -I$(DKITCH)
 
 CXXFLAGS	+=  -Wall -Wextra $(INC)
 OBJ	=	$(SRC:.cpp=.o) $(MAIN:.cpp=.o)
