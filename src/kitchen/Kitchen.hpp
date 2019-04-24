@@ -16,10 +16,14 @@
 namespace plazza {
     class Kitchen {
     public:
-        explicit Kitchen(size_t nbCooks);
+        explicit Kitchen(int readFd, int writeFd, size_t nbCooks);
+
+        void exec();
     private:
         std::vector<Cook> _cooks;
         Stock _stock;
+        int _readFd;
+        int _writeFd;
 
         FRIEND_TEST(KitchenTest, create);
     };

@@ -27,6 +27,7 @@ void plazza::Reception::open()
     std::cout << "orders> ";
     while (getline(std::cin, line)) {
         order = OrderParser::parseLine(line);
+        _kitchenManager.sendOrder(order);
         std::cout << "orders> ";
     }
 }

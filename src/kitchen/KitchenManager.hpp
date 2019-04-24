@@ -10,14 +10,17 @@
 
 #include <gtest/gtest_prod.h>
 #include "Order.hpp"
+#include "Process.hpp"
 
 namespace plazza {
     class KitchenManager {
     public:
-        KitchenManager() = default;
+        KitchenManager();
+        void sendOrder(const Order &order);
     private:
         void createKitchen();
 
+        Process _process;
         std::vector<int> _kitchensFd;
         FRIEND_TEST(KitchenManagerTest, create);
     };
