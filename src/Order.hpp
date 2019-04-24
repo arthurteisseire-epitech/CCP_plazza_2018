@@ -20,7 +20,7 @@ namespace plazza {
         Order() = default;
         void addPizza(const std::string &type, const std::string &size, int number);
     private:
-        std::vector<std::unique_ptr<IPizza>> _pizzas;
+        std::vector<IPizza *> _pizzas;
 
         FRIEND_TEST(Order, addPizza);
         FRIEND_TEST(Order, parseOrder);
