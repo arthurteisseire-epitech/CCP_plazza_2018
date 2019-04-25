@@ -10,6 +10,7 @@
 
 #include <unistd.h>
 #include <sys/socket.h>
+#include <cstring>
 #include "Kitchen.hpp"
 
 namespace plazza {
@@ -48,9 +49,14 @@ namespace plazza {
             }
         }
 
-        void send(const std::string &msg)
+        void send(const char *msg)
         {
-            write(_sockets[1], msg.c_str(), msg.length());
+            write(_sockets[1], msg, strlen(msg));
+        }
+
+        void send(const void *data, size_t size)
+        {
+            write(_sockets[1], data, size);
         }
 
     private:

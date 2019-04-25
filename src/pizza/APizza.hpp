@@ -32,6 +32,7 @@ namespace plazza {
 
         FRIEND_TEST(PizzaTest, create);
         FRIEND_TEST(SerializedPizzaTest, unpack);
+        FRIEND_TEST(Order, takePizza);
     };
 }
 

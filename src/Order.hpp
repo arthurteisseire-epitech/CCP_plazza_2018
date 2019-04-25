@@ -10,7 +10,7 @@
 
 #include <gtest/gtest_prod.h>
 #include <string>
-#include <vector>
+#include <queue>
 #include "IPizza.hpp"
 #include "PizzaFactory.hpp"
 
@@ -19,10 +19,12 @@ namespace plazza {
     public:
         Order() = default;
         void addPizza(const std::string &type, const std::string &size, int number);
+        IPizza *takePizza();
     private:
-        std::vector<IPizza *> _pizzas;
+        std::queue<IPizza *> _pizzas;
 
         FRIEND_TEST(Order, addPizza);
+        FRIEND_TEST(Order, takePizza);
         FRIEND_TEST(Order, parseOrder);
     };
 }
