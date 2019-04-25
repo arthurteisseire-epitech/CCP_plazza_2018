@@ -29,7 +29,7 @@ void plazza::KitchenManager::sendOrder(Order &order)
     if (pizza == nullptr)
         return;
     if (isFirst) {
-        _process->exec(_nbCooks);
+        _process->create(_nbCooks);
         isFirst = false;
     }
     _process->send(pizza->pack(), sizeof(SerializedPizza));

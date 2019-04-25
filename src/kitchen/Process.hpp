@@ -33,7 +33,7 @@ namespace plazza {
         }
 
         template <typename ...Args>
-        void exec(Args... args)
+        void create(Args... args)
         {
             int childPid = fork();
 
