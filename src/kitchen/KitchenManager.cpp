@@ -28,8 +28,7 @@ void plazza::KitchenManager::sendOrder(Order &order)
     createKitchen();
     _processes[0].send(pizza->pack(), sizeof(SerializedPizza));
     read(_sockets[0], buff, 40);
-    write(1, "receive : ", sizeof("receive : "));
-    dprintf(1, "%s\n", buff);
+    dprintf(1, "receive : %s\n", buff);
 }
 
 void plazza::KitchenManager::createKitchen()
