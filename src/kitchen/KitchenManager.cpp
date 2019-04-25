@@ -18,14 +18,18 @@ plazza::KitchenManager::KitchenManager(size_t nbCooks) :
         perror("socketpair");
 }
 
-void plazza::KitchenManager::sendOrder(const Order &)
+void plazza::KitchenManager::sendOrder(Order &order)
 {
-    char buff[40];
+    IPizza *pizza = order.takePizza();
+    char buff[40] = {0};
 
+    if (pizza == nullptr)
+        return;
     createKitchen();
-    _processes[0].send("hey");
+    _processes[0].send(pizza->pack(), sizeof(SerializedPizza));
+    read(_sockets[0], buff, 40);
     write(1, "receive : ", sizeof("receive : "));
-    write(1, buff, read(_sockets[0], buff, 40));
+    dprintf(1, "%s\n", buff);
 }
 
 void plazza::KitchenManager::createKitchen()

@@ -16,7 +16,7 @@ namespace plazza {
     class KitchenManager {
     public:
         explicit KitchenManager(size_t nbCooks);
-        void sendOrder(const Order &order);
+        void sendOrder(Order &order);
     private:
         void createKitchen();
 

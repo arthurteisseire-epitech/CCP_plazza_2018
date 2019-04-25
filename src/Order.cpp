@@ -24,8 +24,11 @@ void plazza::Order::addPizza(const std::string &type, const std::string &size, i
 
 plazza::IPizza *plazza::Order::takePizza()
 {
-    IPizza *pizza = _pizzas.front();
+    IPizza *pizza;
 
+    if (_pizzas.empty())
+        return nullptr;
+    pizza = _pizzas.front();
     _pizzas.pop();
     return pizza;
 }

@@ -39,4 +39,13 @@ namespace plazza {
         EXPECT_EQ(pizzaFantasia->_type, Fantasia);
         EXPECT_EQ(pizzaFantasia->_size, XXL);
     }
+
+    TEST(SerializedPizzaTest, constructWithBytes)
+    {
+        unsigned char buff[8] = {1, 0, 0, 0, 1, 0, 0, 0};
+        SerializedPizza pizza(buff);
+
+        EXPECT_EQ(pizza._size, 1);
+        EXPECT_EQ(pizza._type, 1);
+    }
 }

@@ -54,9 +54,10 @@ namespace plazza {
             write(_sockets[1], msg, strlen(msg));
         }
 
-        void send(const void *data, size_t size)
+        template <typename U>
+        void send(const U &data, size_t size)
         {
-            write(_sockets[1], data, size);
+            write(_sockets[1], &data, size);
         }
 
     private:

@@ -18,13 +18,15 @@ namespace plazza {
     class SerializedPizza {
     public:
         SerializedPizza(PizzaType type, PizzaSize size);
+        SerializedPizza(const unsigned char *bytes);
         IPizza *unpack() const;
     private:
-        PizzaType _type;
-        PizzaSize _size;
+        unsigned _type;
+        unsigned _size;
 
         FRIEND_TEST(SerializedPizzaTest, create);
         FRIEND_TEST(SerializedPizzaTest, pack);
+        FRIEND_TEST(SerializedPizzaTest, constructWithBytes);
     };
 }
 

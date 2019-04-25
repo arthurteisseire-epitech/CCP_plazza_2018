@@ -7,6 +7,7 @@
 
 #include <unistd.h>
 #include "Kitchen.hpp"
+#include "SerializedPizza.hpp"
 
 plazza::Kitchen::Kitchen(int readFd, int writeFd, size_t nbCooks) :
     _stock(5),
@@ -19,8 +20,11 @@ plazza::Kitchen::Kitchen(int readFd, int writeFd, size_t nbCooks) :
 
 void plazza::Kitchen::exec()
 {
-    char buff[4096] = "hih";
-    int nbBytes = read(_readFd, buff + 3, sizeof(buff));
+    unsigned char buff[sizeof(SerializedPizza)];
 
-    write(_writeFd, buff, nbBytes + 3);
+    if (read(_readFd, buff, sizeof(SerializedPizza)) == -1)
+        perror("read");
+    SerializedPizza pizza(buff);
+    auto p = pizza.unpack();
+    write(_writeFd, "ok", 2);
 }
