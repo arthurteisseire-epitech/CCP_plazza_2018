@@ -21,16 +21,17 @@ namespace plazza {
 
         void launch();
     private:
-        void handlePizza(IPizza *pizza);
         void waitCommand();
+        void execCommand(const unsigned char *buff);
         void checkTimeout() const;
 
-        void kill(const char *buffer);
+        void kill();
+        void managePizza(IPizza *);
         std::vector<Cook> _cooks;
         Stock _stock;
         int _fd;
 
-        std::map<std::string, void (plazza::Kitchen::*)(const char *buffer)> _actions;
+        std::map<std::string, void (plazza::Kitchen::*)()> _actions;
         FRIEND_TEST(KitchenTest, create);
     };
 }

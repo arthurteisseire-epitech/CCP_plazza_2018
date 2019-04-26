@@ -19,6 +19,7 @@ plazza::Kitchen::Kitchen(int fd, size_t nbCooks) :
 {
     for (size_t i = 0; i < nbCooks; ++i)
         _cooks.emplace_back();
+
     _actions = {
         {"kill", &plazza::Kitchen::kill},
     };
@@ -38,22 +39,11 @@ void plazza::Kitchen::waitCommand()
     checkTimeout();
     nbBytes = read(_fd, buff, 4096);
     buff[nbBytes] = 0;
-    if (nbBytes < 0) {
+    if (nbBytes <= 0) {
         perror("read");
         exit(84);
-    } else if (nbBytes == 0) {
-        write(1, "kitchen destroy...", sizeof("kitchen destroy..."));
-        exit(0);
     } else {
-        std::string input((char *)buff);
-
-        auto it = std::find_if(_actions.begin(), _actions.end(),
-            [&input](const std::pair<std::string, void (plazza::Kitchen::*)(const char *)> &pair) {
-               return std::equal(pair.first.begin(), pair.first.end(), input.begin());
-            });
-        (this->*it->second)((const char *)buff);
-
-        handlePizza(SerializedPizza(buff).unpack());
+        execCommand(buff);
     }
 }
 
@@ -71,12 +61,25 @@ void plazza::Kitchen::checkTimeout() const
     }
 }
 
-void plazza::Kitchen::handlePizza(plazza::IPizza *)
+void plazza::Kitchen::execCommand(const unsigned char *buff)
+{
+    std::string input((char *)buff);
+    auto it = std::find_if(_actions.begin(), _actions.end(),
+                           [&input](const std::pair<std::string, void (plazza::Kitchen::*)()> &pair) {
+                               return std::equal(pair.first.begin(), pair.first.end(), input.begin());
+                           });
+
+    if (it != _actions.end())
+        (this->*it->second)();
+    else
+        managePizza(plazza::SerializedPizza(buff).unpack());
+}
+
+void plazza::Kitchen::managePizza(IPizza *)
 {
 }
 
-void plazza::Kitchen::kill(const char *)
+void plazza::Kitchen::kill()
 {
-    std::cout << "kitchen destroyed..." << std::endl;
     exit(0);
 }
