@@ -75,8 +75,9 @@ void plazza::Kitchen::execCommand(const unsigned char *buff)
         managePizza(plazza::SerializedPizza(buff).unpack());
 }
 
-void plazza::Kitchen::managePizza(IPizza *)
+void plazza::Kitchen::managePizza(IPizza *pizza)
 {
+    delete pizza;
 }
 
 void plazza::Kitchen::kill()

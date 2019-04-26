@@ -26,7 +26,7 @@ namespace plazza {
         void checkTimeout() const;
 
         void kill();
-        void managePizza(IPizza *);
+        void managePizza(IPizza *pizza);
         std::vector<Cook> _cooks;
         Stock _stock;
         int _fd;
