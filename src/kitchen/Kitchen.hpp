@@ -17,17 +17,17 @@
 namespace plazza {
     class Kitchen {
     public:
-        explicit Kitchen(int readFd, int writeFd, size_t nbCooks);
+        explicit Kitchen(int fd, size_t nbCooks);
 
         void launch();
     private:
         void handlePizza(IPizza *pizza);
         void waitCommand();
+        void checkTimeout() const;
 
         std::vector<Cook> _cooks;
         Stock _stock;
-        int _readFd;
-        int _writeFd;
+        int _fd;
 
         FRIEND_TEST(KitchenTest, create);
     };

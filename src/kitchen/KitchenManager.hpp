@@ -18,10 +18,10 @@ namespace plazza {
         explicit KitchenManager(size_t nbCooks);
         void sendOrder(Order &order);
     private:
+        void waitAnyInput();
 
         std::unique_ptr<Process<Kitchen>> _process;
         int _nbCooks;
-        int _sockets[2];
 
         FRIEND_TEST(KitchenManagerTest, create);
     };

@@ -19,9 +19,8 @@ namespace plazza {
     template <typename T>
     class Process {
     public:
-        explicit Process(int writeFd) :
-            _sockets(),
-            _writeFd(writeFd)
+        explicit Process() :
+            _sockets()
         {
             if (socketpair(AF_UNIX, SOCK_STREAM, 0, _sockets) < 0)
                 perror("socketpair");
@@ -41,7 +40,7 @@ namespace plazza {
                 perror("fork");
             } else if (childPid == 0) {
                 close(_sockets[1]);
-                T t(_sockets[0], _writeFd, args...);
+                T t(_sockets[0], args...);
 
                 t.launch();
                 close(_sockets[0]);
@@ -62,9 +61,18 @@ namespace plazza {
             write(_sockets[1], &data, size);
         }
 
+        std::string read()
+        {
+            char buff[4096];
+            size_t nbBytes = ::read(_sockets[1], buff, 4096);
+
+            buff[nbBytes] = 0;
+            std::cout << "nbBytes : " << nbBytes << std::endl;
+            return std::string(buff);
+        }
+
     private:
         int _sockets[2];
-        int _writeFd;
     };
 }
 

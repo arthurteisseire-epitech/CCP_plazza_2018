@@ -12,10 +12,9 @@
 #include "Kitchen.hpp"
 #include "SerializedPizza.hpp"
 
-plazza::Kitchen::Kitchen(int readFd, int writeFd, size_t nbCooks) :
+plazza::Kitchen::Kitchen(int fd, size_t nbCooks) :
     _stock(5),
-    _readFd(readFd),
-    _writeFd(writeFd)
+    _fd(fd)
 {
     for (size_t i = 0; i < nbCooks; ++i)
         _cooks.emplace_back();
@@ -30,8 +29,10 @@ void plazza::Kitchen::launch()
 void plazza::Kitchen::waitCommand()
 {
     unsigned char buff[sizeof(SerializedPizza)] = {0};
-    int nbBytes = read(_readFd, buff, sizeof(SerializedPizza));
+    int nbBytes;
 
+    checkTimeout();
+    nbBytes = read(_fd, buff, sizeof(SerializedPizza));
     if (nbBytes < 0) {
         perror("read");
         exit(84);
@@ -39,8 +40,22 @@ void plazza::Kitchen::waitCommand()
         write(1, "kitchen destroy...", sizeof("kitchen destroy..."));
         exit(0);
     } else {
-        write(_writeFd, "ok", 2);
+        write(_fd, "ok", 2);
         handlePizza(SerializedPizza(buff).unpack());
+    }
+}
+
+void plazza::Kitchen::checkTimeout() const
+{
+    struct timeval time = {5, 0};
+    fd_set set;
+
+    FD_ZERO(&set);
+    FD_SET(_fd, &set);
+    select(_fd + 1, &set, nullptr, nullptr, &time);
+    if (!FD_ISSET(_fd, &set)) {
+        write(_fd, "timeout", sizeof("timeout"));
+        exit(0);
     }
 }
 

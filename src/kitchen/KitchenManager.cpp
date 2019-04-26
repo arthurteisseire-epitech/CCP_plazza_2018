@@ -12,27 +12,31 @@
 #include "Kitchen.hpp"
 
 plazza::KitchenManager::KitchenManager(size_t nbCooks) :
-    _nbCooks(nbCooks),
-    _sockets()
+    _process(nullptr),
+    _nbCooks(nbCooks)
 {
-    if (socketpair(AF_UNIX, SOCK_STREAM, 0, _sockets) < 0)
-        perror("socketpair");
-    _process = std::make_unique<Process<Kitchen>>(_sockets[1]);
 }
 
 void plazza::KitchenManager::sendOrder(Order &order)
 {
     IPizza *pizza = order.takePizza();
-    char buff[40] = {0};
-    static int isFirst = true;
 
     if (pizza == nullptr)
         return;
-    if (isFirst) {
+    if (_process == nullptr) {
+        _process = std::make_unique<Process<Kitchen>>();
         _process->create(_nbCooks);
-        isFirst = false;
+        _process->send(pizza->pack(), sizeof(SerializedPizza));
     }
-    _process->send(pizza->pack(), sizeof(SerializedPizza));
-    read(_sockets[0], buff, 40);
-    std::cout << "receive : " << buff << std::endl;
+    waitAnyInput();
 }
+
+void plazza::KitchenManager::waitAnyInput()
+{
+    std::string input = _process->read();
+
+    if (input == "timeout")
+        _process = nullptr;
+    std::cout << "receive : " << input << std::endl;
+}
+
