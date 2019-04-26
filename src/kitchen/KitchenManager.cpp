@@ -25,11 +25,19 @@ void plazza::KitchenManager::sendOrder(Order &order)
     if (_processes.empty()) {
         _processes.emplace_back();
         _processes[0].create(_nbCooks);
+    } else {
         _processes[0].send(pizza->pack(), sizeof(SerializedPizza));
     }
 }
 
-void plazza::KitchenManager::handleEvents()
+void plazza::KitchenManager::handleEvents(fd_set *set)
+{
+    for (const auto &p : _processes)
+        if (FD_ISSET(p.getReadFd(), set))
+            execActionFromInput();
+}
+
+void plazza::KitchenManager::execActionFromInput()
 {
     std::string input = _processes[0].read();
 

@@ -38,7 +38,7 @@ void plazza::Reception::handleEvent()
     if (FD_ISSET(0, &set))
         sendOrderFromUserInput();
     if (_kitchenManager.isFdSet(&set))
-        _kitchenManager.handleEvents();
+        _kitchenManager.handleEvents(&set);
 }
 
 void plazza::Reception::sendOrderFromUserInput()

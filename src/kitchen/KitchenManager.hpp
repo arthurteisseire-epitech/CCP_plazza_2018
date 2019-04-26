@@ -19,10 +19,11 @@ namespace plazza {
         void sendOrder(Order &order);
         void addFdsToSet(fd_set *set) const;
         int findMaxFd();
-        void handleEvents();
+        void handleEvents(fd_set *set);
         bool isFdSet(fd_set *set);
         void destroyKitchens();
     private:
+        void execActionFromInput();
 
         std::vector<Process<Kitchen>> _processes;
         int _nbCooks;
