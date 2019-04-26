@@ -23,36 +23,45 @@ plazza::KitchenManager::KitchenManager(size_t nbCooks) :
 void plazza::KitchenManager::sendOrder(Order &order)
 {
     std::string s;
+    bool isSpace = false;
 
     if (order.isEmpty())
         return;
-    if (_processes.empty()) {
-        _processes.emplace_back(std::make_unique<Process<Kitchen>>());
-        _processes[0]->create(_nbCooks);
+    for (auto &p : _processes) {
+        p->send("isSpace");
+        s = p->read();
+        if (s == "yes" || s == "in stock") {
+            p->send(order.takePizza(), sizeof(SerializedPizza));
+            isSpace = true;
+            std::cout << "is space : ok" << std::endl;
+            break;
+        }
     }
-    _processes[0]->send("isSpace");
-    s = _processes[0]->read();
-    if (s == "yes")
-        _processes[0]->send(order.takePizza(), sizeof(SerializedPizza));
-    else if (s == "in stock") {
-        _processes[0]->send(order.takePizza(), sizeof(SerializedPizza));
-        std::cout << "pizza in stock" << std::endl;
+    if (!isSpace) {
+        std::cout << "no space : kitchen creation..." << std::endl;
+        _processes.emplace_back(std::make_unique<Process<Kitchen>>());
+        _processes.back()->create(_nbCooks);
+        _processes.back()->send(order.takePizza(), sizeof(SerializedPizza));
     }
 }
 
 void plazza::KitchenManager::handleEvents(fd_set *set)
 {
-    for (const auto &p : _processes)
-        if (FD_ISSET(p->getReadFd(), set))
-            execActionFromInput();
+    std::cout << "nb kitchens : " << _processes.size() << std::endl;
+    for (auto &p : _processes)
+        if (FD_ISSET(p->getReadFd(), set)) {
+            execActionFromInput(p);
+            handleEvents(set);
+            return;
+        }
 }
 
-void plazza::KitchenManager::execActionFromInput()
+void plazza::KitchenManager::execActionFromInput(std::unique_ptr<Process<Kitchen>> &p)
 {
-    std::string input = _processes[0]->read();
+    std::string input = p->read();
     auto it = _actions.find(input);
 
-    (this->*it->second)(_processes[0]);
+    (this->*it->second)(p);
 }
 
 void plazza::KitchenManager::addFdsToSet(fd_set *set) const
