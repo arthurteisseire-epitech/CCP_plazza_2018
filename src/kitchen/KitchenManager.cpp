@@ -38,26 +38,31 @@ void plazza::KitchenManager::handleEvents()
     std::cout << "receive : " << input << std::endl;
 }
 
-void plazza::KitchenManager::addFdsToSet(fd_set *set)
+void plazza::KitchenManager::addFdsToSet(fd_set *set) const
 {
-    if (!_processes.empty())
-        FD_SET(_processes[0].getReadFd(), set);
+    for (const auto &p : _processes)
+        FD_SET(p.getReadFd(), set);
 }
 
 int plazza::KitchenManager::findMaxFd()
 {
-    if (!_processes.empty())
-        return _processes[0].getReadFd();
-    return 0;
+    int maxFd = 0;
+
+    for (const auto &p : _processes)
+        maxFd = std::max(p.getReadFd(), maxFd);
+    return maxFd;
 }
 
 bool plazza::KitchenManager::isFdSet(fd_set *set)
 {
-    return !_processes.empty() && FD_ISSET(_processes[0].getReadFd(), set);
+    for (const auto &p : _processes)
+        if (FD_ISSET(p.getReadFd(), set))
+            return true;
+    return false;
 }
 
 void plazza::KitchenManager::destroyKitchens()
 {
-    if (!_processes.empty())
-        _processes[0].send("kill");
+    for (const auto &p : _processes)
+        p.send("kill");
 }

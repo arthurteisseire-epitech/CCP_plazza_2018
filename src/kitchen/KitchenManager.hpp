@@ -17,7 +17,7 @@ namespace plazza {
     public:
         explicit KitchenManager(size_t nbCooks);
         void sendOrder(Order &order);
-        void addFdsToSet(fd_set *set);
+        void addFdsToSet(fd_set *set) const;
         int findMaxFd();
         void handleEvents();
         bool isFdSet(fd_set *set);

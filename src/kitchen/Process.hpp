@@ -32,7 +32,7 @@ namespace plazza {
         }
 
         template <typename ...Args>
-        void create(Args... args)
+        void create(Args... args) const
         {
             int childPid = fork();
 
@@ -61,7 +61,7 @@ namespace plazza {
             write(_sockets[1], &data, size);
         }
 
-        std::string read()
+        std::string read() const
         {
             char buff[4096];
             size_t nbBytes = ::read(_sockets[1], buff, 4096);
@@ -71,7 +71,7 @@ namespace plazza {
             return std::string(buff);
         }
 
-        int getReadFd()
+        int getReadFd() const
         {
             return _sockets[1];
         }
