@@ -13,30 +13,31 @@
 #include "IPizza.hpp"
 #include "Cook.hpp"
 #include "Stock.hpp"
+#include "Ipc.hpp"
 
 namespace plazza {
     class Kitchen {
     public:
-        explicit Kitchen(int fd, size_t nbCooks);
+        explicit Kitchen(const Ipc &ipc, size_t nbCooks);
 
         void launch();
     private:
         void waitCommand();
-        void execCommand(const unsigned char *buff);
+        void execCommand(const char *buff);
         void checkTimeout() const;
 
         void kill();
         void isSpaceForPizza();
         void managePizza(IPizza *pizza);
+        bool isACookWaiting();
+
         std::vector<Cook> _cooks;
         std::vector<IPizza *> _pizzas;
         Stock _stock;
-        int _fd;
+        const Ipc &_ipc;
 
         std::map<std::string, void (plazza::Kitchen::*)()> _actions;
         FRIEND_TEST(KitchenTest, create);
-
-        bool isACookWaiting();
     };
 }
 

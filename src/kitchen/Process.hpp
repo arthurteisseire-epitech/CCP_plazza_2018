@@ -14,22 +14,13 @@
 #include <cstring>
 #include <sys/wait.h>
 #include "Kitchen.hpp"
+#include "Ipc.hpp"
 
 namespace plazza {
     template <typename T>
     class Process {
     public:
-        explicit Process() :
-            _sockets()
-        {
-            if (socketpair(AF_UNIX, SOCK_STREAM, 0, _sockets) < 0)
-                perror("socketpair");
-        }
-
-        ~Process()
-        {
-            close(_sockets[1]);
-        }
+        Process() = default;
 
         template <typename ...Args>
         void create(Args... args) const
@@ -39,44 +30,42 @@ namespace plazza {
             if (childPid == -1) {
                 perror("fork");
             } else if (childPid == 0) {
-                close(_sockets[1]);
-                T t(_sockets[0], args...);
+                ipc.closeParentFd();
+                T t(ipc, args...);
 
                 t.launch();
-                close(_sockets[0]);
                 exit(0);
             } else {
-                close(_sockets[0]);
+                ipc.closeChildFd();
             }
         }
 
         void send(const char *msg) const
         {
-            write(_sockets[1], msg, strlen(msg));
+            ipc.sendToChild(msg);
         }
 
         template <typename U>
         void send(const U &data, size_t size) const
         {
-            write(_sockets[1], &data, size);
+            ipc.sendToChild(data, size);
         }
 
         std::string read() const
         {
-            char buff[4096];
-            size_t nbBytes = ::read(_sockets[1], buff, 4096);
+            char buffer[4096];
 
-            buff[nbBytes] = 0;
-            return std::string(buff);
+            ipc.readChildInput(buffer, sizeof(buffer));
+            return std::string(buffer);
         }
 
         int getReadFd() const
         {
-            return _sockets[1];
+            return ipc.getParentFd();
         }
 
     private:
-        int _sockets[2];
+        Ipc ipc;
     };
 }
 
