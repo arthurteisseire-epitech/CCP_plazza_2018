@@ -24,10 +24,12 @@ namespace plazza {
         void destroyKitchens();
     private:
         void execActionFromInput();
+        void removeKitchen(std::unique_ptr<Process<Kitchen>> &p);
 
-        std::vector<Process<Kitchen>> _processes;
+        std::vector<std::unique_ptr<Process<Kitchen>>> _processes;
         int _nbCooks;
 
+        std::map<std::string, void (plazza::KitchenManager::*)(std::unique_ptr<Process<Kitchen>> &)> _actions;
         FRIEND_TEST(KitchenManagerTest, create);
     };
 }
