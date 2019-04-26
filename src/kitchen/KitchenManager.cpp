@@ -70,7 +70,7 @@ bool plazza::KitchenManager::isFdSet(fd_set *set)
     return false;
 }
 
-void plazza::KitchenManager::destroyKitchens()
+void plazza::KitchenManager::destroyKitchensProcesses()
 {
     for (const auto &p : _processes)
         p->send("kill");

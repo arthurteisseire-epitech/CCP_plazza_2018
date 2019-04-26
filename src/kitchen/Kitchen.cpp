@@ -9,6 +9,7 @@
 #include <chrono>
 #include <cstring>
 #include <iostream>
+#include <algorithm>
 #include "Kitchen.hpp"
 #include "SerializedPizza.hpp"
 
@@ -18,6 +19,9 @@ plazza::Kitchen::Kitchen(int fd, size_t nbCooks) :
 {
     for (size_t i = 0; i < nbCooks; ++i)
         _cooks.emplace_back();
+    _actions = {
+        {"kill", &plazza::Kitchen::kill},
+    };
 }
 
 void plazza::Kitchen::launch()
@@ -41,8 +45,14 @@ void plazza::Kitchen::waitCommand()
         write(1, "kitchen destroy...", sizeof("kitchen destroy..."));
         exit(0);
     } else {
-        if (strcmp((char*)buff, "kill") == 0)
-            exit(0);
+        std::string input((char *)buff);
+
+        auto it = std::find_if(_actions.begin(), _actions.end(),
+            [&input](const std::pair<std::string, void (plazza::Kitchen::*)(const char *)> &pair) {
+               return std::equal(pair.first.begin(), pair.first.end(), input.begin());
+            });
+        (this->*it->second)((const char *)buff);
+
         handlePizza(SerializedPizza(buff).unpack());
     }
 }
@@ -63,4 +73,10 @@ void plazza::Kitchen::checkTimeout() const
 
 void plazza::Kitchen::handlePizza(plazza::IPizza *)
 {
+}
+
+void plazza::Kitchen::kill(const char *)
+{
+    std::cout << "kitchen destroyed..." << std::endl;
+    exit(0);
 }

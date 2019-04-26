@@ -25,10 +25,12 @@ namespace plazza {
         void waitCommand();
         void checkTimeout() const;
 
+        void kill(const char *buffer);
         std::vector<Cook> _cooks;
         Stock _stock;
         int _fd;
 
+        std::map<std::string, void (plazza::Kitchen::*)(const char *buffer)> _actions;
         FRIEND_TEST(KitchenTest, create);
     };
 }
