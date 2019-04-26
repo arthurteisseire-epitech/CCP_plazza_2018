@@ -48,6 +48,7 @@ void plazza::Reception::sendOrderFromUserInput()
 
     if (!getline(std::cin, line)) {
         std::cout << "bye" << std::endl;
+        _kitchenManager.destroyKitchens();
         exit(0);
     }
     order = plazza::OrderParser::parseLine(line);

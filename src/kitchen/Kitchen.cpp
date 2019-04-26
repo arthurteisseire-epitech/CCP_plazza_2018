@@ -33,6 +33,7 @@ void plazza::Kitchen::waitCommand()
 
     checkTimeout();
     nbBytes = read(_fd, buff, 4096);
+    buff[nbBytes] = 0;
     if (nbBytes < 0) {
         perror("read");
         exit(84);
@@ -40,6 +41,8 @@ void plazza::Kitchen::waitCommand()
         write(1, "kitchen destroy...", sizeof("kitchen destroy..."));
         exit(0);
     } else {
+        if (strcmp((char*)buff, "kill") == 0)
+            exit(0);
         handlePizza(SerializedPizza(buff).unpack());
     }
 }

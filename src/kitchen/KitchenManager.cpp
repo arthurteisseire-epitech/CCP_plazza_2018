@@ -57,3 +57,8 @@ bool plazza::KitchenManager::isFdSet(fd_set *set)
     return _process && FD_ISSET(_process->getReadFd(), set);
 }
 
+void plazza::KitchenManager::destroyKitchens()
+{
+    if (_process)
+        _process->send("kill");
+}

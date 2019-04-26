@@ -21,6 +21,7 @@ namespace plazza {
         int findMaxFd();
         void handleEvents();
         bool isFdSet(fd_set *set);
+        void destroyKitchens();
     private:
 
         std::unique_ptr<Process<Kitchen>> _process;
