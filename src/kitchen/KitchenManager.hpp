@@ -17,8 +17,11 @@ namespace plazza {
     public:
         explicit KitchenManager(size_t nbCooks);
         void sendOrder(Order &order);
+        void addFdsToSet(fd_set *set);
+        int findMaxFd();
+        void handleEvents();
+        bool isFdSet(fd_set *set);
     private:
-        void waitAnyInput();
 
         std::unique_ptr<Process<Kitchen>> _process;
         int _nbCooks;

@@ -28,11 +28,11 @@ void plazza::Kitchen::launch()
 
 void plazza::Kitchen::waitCommand()
 {
-    unsigned char buff[sizeof(SerializedPizza)] = {0};
+    unsigned char buff[4096] = {0};
     int nbBytes;
 
     checkTimeout();
-    nbBytes = read(_fd, buff, sizeof(SerializedPizza));
+    nbBytes = read(_fd, buff, 4096);
     if (nbBytes < 0) {
         perror("read");
         exit(84);
@@ -40,7 +40,6 @@ void plazza::Kitchen::waitCommand()
         write(1, "kitchen destroy...", sizeof("kitchen destroy..."));
         exit(0);
     } else {
-        write(_fd, "ok", 2);
         handlePizza(SerializedPizza(buff).unpack());
     }
 }

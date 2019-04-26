@@ -71,6 +71,11 @@ namespace plazza {
             return std::string(buff);
         }
 
+        int getReadFd()
+        {
+            return _sockets[1];
+        }
+
     private:
         int _sockets[2];
     };
