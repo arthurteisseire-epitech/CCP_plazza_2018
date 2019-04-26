@@ -22,6 +22,7 @@ plazza::Reception::Reception(double cookingTime, size_t nbCooks, size_t timeToRe
 
 void plazza::Reception::open()
 {
+    std::cout << "orders> " << std::flush;
     while (true)
         handleEvent();
 }
@@ -30,13 +31,14 @@ void plazza::Reception::handleEvent()
 {
     fd_set set;
 
-    std::cout << "orders> " << std::flush;
     FD_ZERO(&set);
     _kitchenManager.addFdsToSet(&set);
     FD_SET(0, &set);
     select(_kitchenManager.findMaxFd() + 1, &set, nullptr, nullptr, nullptr);
-    if (FD_ISSET(0, &set))
+    if (FD_ISSET(0, &set)) {
         sendOrderFromUserInput();
+        std::cout << "orders> " << std::flush;
+    }
     if (_kitchenManager.isFdSet(&set))
         _kitchenManager.handleEvents(&set);
 }

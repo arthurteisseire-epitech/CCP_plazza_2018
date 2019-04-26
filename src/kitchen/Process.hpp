@@ -67,7 +67,6 @@ namespace plazza {
             size_t nbBytes = ::read(_sockets[1], buff, 4096);
 
             buff[nbBytes] = 0;
-            std::cout << "nbBytes : " << nbBytes << std::endl;
             return std::string(buff);
         }
 

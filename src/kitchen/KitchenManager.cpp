@@ -47,7 +47,6 @@ void plazza::KitchenManager::execActionFromInput()
     auto it = _actions.find(input);
 
     (this->*it->second)(_processes[0]);
-    std::cout << "receive : " << input << std::endl;
 }
 
 void plazza::KitchenManager::addFdsToSet(fd_set *set) const
@@ -82,4 +81,5 @@ void plazza::KitchenManager::destroyKitchens()
 void plazza::KitchenManager::removeKitchen(std::unique_ptr<Process<Kitchen>> &p)
 {
     _processes.erase(std::find(_processes.begin(), _processes.end(), p));
+    std::cout << "kitchen destroyed..." << std::endl;
 }
