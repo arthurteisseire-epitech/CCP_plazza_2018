@@ -22,6 +22,7 @@ plazza::Kitchen::Kitchen(int fd, size_t nbCooks) :
 
     _actions = {
         {"kill", &plazza::Kitchen::kill},
+        {"isSpace", &plazza::Kitchen::isSpaceForPizza},
     };
 }
 
@@ -77,10 +78,25 @@ void plazza::Kitchen::execCommand(const unsigned char *buff)
 
 void plazza::Kitchen::managePizza(IPizza *pizza)
 {
-    delete pizza;
+    _pizzas.emplace_back(pizza);
 }
 
 void plazza::Kitchen::kill()
 {
     exit(0);
+}
+
+void plazza::Kitchen::isSpaceForPizza()
+{
+    if (isACookWaiting())
+        write(_fd, "yes", sizeof("yes"));
+    else if (_pizzas.size() < _cooks.size())
+        write(_fd, "in stock", sizeof("in stock"));
+    else
+        write(_fd, "no", sizeof("no"));
+}
+
+bool plazza::Kitchen::isACookWaiting()
+{
+    return false;
 }

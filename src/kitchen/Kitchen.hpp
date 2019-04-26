@@ -26,13 +26,17 @@ namespace plazza {
         void checkTimeout() const;
 
         void kill();
+        void isSpaceForPizza();
         void managePizza(IPizza *pizza);
         std::vector<Cook> _cooks;
+        std::vector<IPizza *> _pizzas;
         Stock _stock;
         int _fd;
 
         std::map<std::string, void (plazza::Kitchen::*)()> _actions;
         FRIEND_TEST(KitchenTest, create);
+
+        bool isACookWaiting();
     };
 }
 
