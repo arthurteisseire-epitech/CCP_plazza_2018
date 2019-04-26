@@ -11,7 +11,7 @@
 namespace plazza {
     TEST(KitchenTest, create)
     {
-        Kitchen kitchen(0, 1, 2);
+        Kitchen kitchen(0, 2);
 
         ASSERT_EQ(kitchen._cooks.size(), 2);
     }

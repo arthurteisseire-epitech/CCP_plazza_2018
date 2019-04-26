@@ -28,9 +28,9 @@ namespace plazza {
 
         order.addPizza("margarita", "M", 1);
         order.addPizza("regina", "L", 1);
-        margarita = dynamic_cast<PizzaMargarita *>(order.takePizza());
+        margarita = dynamic_cast<PizzaMargarita *>(order.takePizza().unpack());
         EXPECT_EQ(order._pizzas.size(), 1);
-        regina = dynamic_cast<PizzaRegina *>(order.takePizza());
+        regina = dynamic_cast<PizzaRegina *>(order.takePizza().unpack());
         EXPECT_EQ(order._pizzas.size(), 0);
 
         EXPECT_EQ(margarita->_type, Margarita);

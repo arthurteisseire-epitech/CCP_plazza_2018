@@ -19,9 +19,10 @@ namespace plazza {
     public:
         Order() = default;
         void addPizza(const std::string &type, const std::string &size, int number);
-        IPizza *takePizza();
+        SerializedPizza takePizza();
+        bool isEmpty();
     private:
-        std::queue<IPizza *> _pizzas;
+        std::queue<SerializedPizza> _pizzas;
 
         FRIEND_TEST(Order, addPizza);
         FRIEND_TEST(Order, takePizza);

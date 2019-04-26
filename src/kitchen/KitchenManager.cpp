@@ -22,15 +22,13 @@ plazza::KitchenManager::KitchenManager(size_t nbCooks) :
 
 void plazza::KitchenManager::sendOrder(Order &order)
 {
-    IPizza *pizza = order.takePizza();
-
-    if (pizza == nullptr)
+    if (order.isEmpty())
         return;
     if (_processes.empty()) {
         _processes.emplace_back(std::make_unique<Process<Kitchen>>());
         _processes[0]->create(_nbCooks);
     } else {
-        _processes[0]->send(pizza->pack(), sizeof(SerializedPizza));
+        _processes[0]->send(order.takePizza(), sizeof(SerializedPizza));
     }
 }
 
