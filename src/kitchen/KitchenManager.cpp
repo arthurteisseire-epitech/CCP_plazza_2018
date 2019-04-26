@@ -12,7 +12,6 @@
 #include "Kitchen.hpp"
 
 plazza::KitchenManager::KitchenManager(size_t nbCooks) :
-    _process(nullptr),
     _nbCooks(nbCooks)
 {
 }
@@ -23,42 +22,42 @@ void plazza::KitchenManager::sendOrder(Order &order)
 
     if (pizza == nullptr)
         return;
-    if (_process == nullptr) {
-        _process = std::make_unique<Process<Kitchen>>();
-        _process->create(_nbCooks);
-        _process->send(pizza->pack(), sizeof(SerializedPizza));
+    if (_processes.empty()) {
+        _processes.emplace_back();
+        _processes[0].create(_nbCooks);
+        _processes[0].send(pizza->pack(), sizeof(SerializedPizza));
     }
 }
 
 void plazza::KitchenManager::handleEvents()
 {
-    std::string input = _process->read();
+    std::string input = _processes[0].read();
 
     if (input == "timeout")
-        _process = nullptr;
+        _processes.pop_back();
     std::cout << "receive : " << input << std::endl;
 }
 
 void plazza::KitchenManager::addFdsToSet(fd_set *set)
 {
-    if (_process)
-        FD_SET(_process->getReadFd(), set);
+    if (!_processes.empty())
+        FD_SET(_processes[0].getReadFd(), set);
 }
 
 int plazza::KitchenManager::findMaxFd()
 {
-    if (_process)
-        return _process->getReadFd();
+    if (!_processes.empty())
+        return _processes[0].getReadFd();
     return 0;
 }
 
 bool plazza::KitchenManager::isFdSet(fd_set *set)
 {
-    return _process && FD_ISSET(_process->getReadFd(), set);
+    return !_processes.empty() && FD_ISSET(_processes[0].getReadFd(), set);
 }
 
 void plazza::KitchenManager::destroyKitchens()
 {
-    if (_process)
-        _process->send("kill");
+    if (!_processes.empty())
+        _processes[0].send("kill");
 }

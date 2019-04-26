@@ -24,7 +24,7 @@ namespace plazza {
         void destroyKitchens();
     private:
 
-        std::unique_ptr<Process<Kitchen>> _process;
+        std::vector<Process<Kitchen>> _processes;
         int _nbCooks;
 
         FRIEND_TEST(KitchenManagerTest, create);
