@@ -26,6 +26,7 @@ namespace plazza {
         void sendPizza(const SerializedPizza &serializedPizza);
         void execActionFromInput(std::unique_ptr<Process<Kitchen>> &p);
         void removeKitchen(std::unique_ptr<Process<Kitchen>> &p);
+        Process<Kitchen> *findAvailableKitchen() const;
 
         std::vector<std::unique_ptr<Process<Kitchen>>> _processes;
         int _nbCooks;

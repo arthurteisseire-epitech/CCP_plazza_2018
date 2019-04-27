@@ -28,27 +28,31 @@ void plazza::KitchenManager::sendOrder(Order &order)
 
 void plazza::KitchenManager::sendPizza(const SerializedPizza &serializedPizza)
 {
-    std::string s;
-    bool isSpace = false;
+    auto p = findAvailableKitchen();
 
-    for (auto &p : _processes) {
+    if (p == nullptr) {
+        std::cout << "no space : kitchen creation..." << std::endl;
+        _processes.emplace_back(std::make_unique<plazza::Process<plazza::Kitchen>>());
+        _processes.back()->create(_nbCooks);
+        p = _processes.back().get();
+    }
+    p->send(serializedPizza, sizeof(plazza::SerializedPizza));
+    p->read();
+}
+
+plazza::Process<plazza::Kitchen> *plazza::KitchenManager::findAvailableKitchen() const
+{
+    std::string s;
+
+    for (auto &p : this->_processes) {
         p->send("isSpace");
         s = p->read();
         if (s == "yes" || s == "in stock") {
             std::cout << "is space : ok, send pizza..." << std::endl;
-            p->send(serializedPizza, sizeof(plazza::SerializedPizza));
-            p->read();
-            isSpace = true;
-            break;
+            return p.get();
         }
     }
-    if (!isSpace) {
-        std::cout << "no space : kitchen creation..." << std::endl;
-        _processes.emplace_back(std::make_unique<plazza::Process<plazza::Kitchen>>());
-        _processes.back()->create(_nbCooks);
-        _processes.back()->send(serializedPizza, sizeof(plazza::SerializedPizza));
-        _processes.back()->read();
-    }
+    return nullptr;
 }
 
 void plazza::KitchenManager::handleEvents(fd_set *set)
