@@ -29,17 +29,17 @@ plazza::Ipc::~Ipc()
 
 void plazza::Ipc::readParentInput(char *buffer, size_t size) const
 {
-    int nbBytes = ::read(_childFd, buffer, size);
-
-    if (nbBytes == -1)
-        perror("read");
-    else
-        buffer[nbBytes] = 0;
+    readInput(_childFd, buffer, size);
 }
 
 void plazza::Ipc::readChildInput(char *buffer, size_t size) const
 {
-    int nbBytes = ::read(_parentFd, buffer, size);
+    readInput(_parentFd, buffer, size);
+}
+
+void plazza::Ipc::readInput(int fd, char *buffer, size_t size) const
+{
+    int nbBytes = ::read(fd, buffer, size);
 
     if (nbBytes == -1)
         perror("read");

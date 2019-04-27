@@ -42,6 +42,8 @@ namespace plazza {
         int getChildFd() const;
 
     private:
+        void readInput(int fd, char *buffer, size_t size) const;
+
         int _childFd;
         int _parentFd;
     };

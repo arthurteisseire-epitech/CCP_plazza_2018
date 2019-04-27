@@ -22,26 +22,31 @@ plazza::KitchenManager::KitchenManager(size_t nbCooks) :
 
 void plazza::KitchenManager::sendOrder(Order &order)
 {
+    while (!order.isEmpty())
+        sendPizza(order.takePizza());
+}
+
+void plazza::KitchenManager::sendPizza(const SerializedPizza &serializedPizza)
+{
     std::string s;
     bool isSpace = false;
 
-    if (order.isEmpty())
-        return;
     for (auto &p : _processes) {
         p->send("isSpace");
         s = p->read();
         if (s == "yes" || s == "in stock") {
-            p->send(order.takePizza(), sizeof(SerializedPizza));
+            std::cout << "is space : ok, send pizza..." << std::endl;
+            p->send(serializedPizza, sizeof(plazza::SerializedPizza));
             isSpace = true;
-            std::cout << "is space : ok" << std::endl;
             break;
         }
     }
     if (!isSpace) {
         std::cout << "no space : kitchen creation..." << std::endl;
-        _processes.emplace_back(std::make_unique<Process<Kitchen>>());
+        _processes.emplace_back(std::make_unique<plazza::Process<plazza::Kitchen>>());
         _processes.back()->create(_nbCooks);
-        _processes.back()->send(order.takePizza(), sizeof(SerializedPizza));
+        _processes.back()->send(serializedPizza, sizeof(plazza::SerializedPizza));
+        _processes.back()->read();
     }
 }
 

@@ -72,10 +72,12 @@ void plazza::Kitchen::execCommand(const char *buff)
 void plazza::Kitchen::managePizza(IPizza *pizza)
 {
     _pizzas.emplace_back(pizza);
+    _ipc.sendToParent("add pizza ok");
 }
 
 void plazza::Kitchen::kill()
 {
+    std::cout << "kicthen receive kill" << std::endl;
     exit(0);
 }
 
@@ -83,9 +85,11 @@ void plazza::Kitchen::isSpaceForPizza()
 {
     if (isACookWaiting())
         _ipc.sendToParent("yes");
-    else if (_pizzas.size() < _cooks.size())
+    else if (_pizzas.size() < _cooks.size()) {
+        std::cout << "pizzas size : " << _pizzas.size() << std::endl;
+        std::cout << "cooks size : " << _cooks.size() << std::endl;
         _ipc.sendToParent("in stock");
-    else
+    } else
         _ipc.sendToParent("no");
 }
 

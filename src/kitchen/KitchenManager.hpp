@@ -23,6 +23,7 @@ namespace plazza {
         bool isFdSet(fd_set *set);
         void destroyKitchensProcesses();
     private:
+        void sendPizza(const SerializedPizza &serializedPizza);
         void execActionFromInput(std::unique_ptr<Process<Kitchen>> &p);
         void removeKitchen(std::unique_ptr<Process<Kitchen>> &p);
 
