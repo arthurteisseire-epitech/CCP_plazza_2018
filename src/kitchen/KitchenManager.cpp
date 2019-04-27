@@ -108,3 +108,15 @@ void plazza::KitchenManager::removeKitchen(std::unique_ptr<Process<Kitchen>> &p)
     _processes.erase(std::find(_processes.begin(), _processes.end(), p));
     std::cout << "kitchen destroyed..." << std::endl;
 }
+
+void plazza::KitchenManager::printKitchensStatus()
+{
+    std::string kitchenStatus;
+
+    for (size_t i = 0; i < _processes.size(); ++i) {
+        _processes[i]->send("status");
+        kitchenStatus = _processes[i]->read();
+        std::cout << "Kitchen " << i << ":" << std::endl;
+        std::cout << kitchenStatus << std::flush;
+    }
+}

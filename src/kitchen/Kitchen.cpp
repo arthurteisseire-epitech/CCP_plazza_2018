@@ -23,6 +23,7 @@ plazza::Kitchen::Kitchen(const Ipc &ipc, size_t nbCooks) :
     _actions = {
         {"kill", &plazza::Kitchen::kill},
         {"isSpace", &plazza::Kitchen::isSpaceForPizza},
+        {"status", &plazza::Kitchen::sendStatus},
     };
 }
 
@@ -94,4 +95,13 @@ void plazza::Kitchen::isSpaceForPizza()
 bool plazza::Kitchen::isACookWaiting()
 {
     return false;
+}
+
+void plazza::Kitchen::sendStatus()
+{
+    std::string status;
+
+    for (size_t i = 0; i < _cooks.size(); ++i)
+        status += "\tCook " + std::to_string(i) + ": waiting/busy\n";
+    _ipc.sendToParent(status.c_str());
 }

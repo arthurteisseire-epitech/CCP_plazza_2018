@@ -53,6 +53,10 @@ void plazza::Reception::sendOrderFromUserInput()
         _kitchenManager.destroyKitchensProcesses();
         exit(0);
     }
-    order = plazza::OrderParser::parseLine(line);
-    _kitchenManager.sendOrder(order);
+    if (line == "status") {
+        _kitchenManager.printKitchensStatus();
+    } else {
+        order = plazza::OrderParser::parseLine(line);
+        _kitchenManager.sendOrder(order);
+    }
 }

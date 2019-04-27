@@ -28,6 +28,7 @@ namespace plazza {
 
         void kill();
         void isSpaceForPizza();
+        void sendStatus();
         void managePizza(IPizza *pizza);
         bool isACookWaiting();
 
