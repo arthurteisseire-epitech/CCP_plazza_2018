@@ -15,7 +15,7 @@
 namespace plazza {
     class KitchenManager {
     public:
-        explicit KitchenManager(size_t nbCooks);
+        KitchenManager(double cookingTimeMultiplier, size_t nbCooks, size_t timeToReplaceIngredients);
         void sendOrder(Order &order);
         void addFdsToSet(fd_set *set) const;
         int findMaxFd();
@@ -30,9 +30,11 @@ namespace plazza {
         Process<Kitchen> *findAvailableKitchen() const;
 
         std::vector<std::unique_ptr<Process<Kitchen>>> _processes;
-        int _nbCooks;
-
         std::map<std::string, void (plazza::KitchenManager::*)(std::unique_ptr<Process<Kitchen>> &)> _actions;
+        const double _cookingTimeMultiplier;
+        const int _nbCooks;
+        const size_t _timeToReplaceIngredients;
+
         FRIEND_TEST(KitchenManagerTest, create);
     };
 }

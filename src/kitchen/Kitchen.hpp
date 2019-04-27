@@ -18,7 +18,7 @@
 namespace plazza {
     class Kitchen {
     public:
-        explicit Kitchen(const Ipc &ipc, size_t nbCooks);
+        explicit Kitchen(const Ipc &ipc, double cookingTimeMultiplier, size_t nbCooks, size_t timeToReplaceIngredients);
 
         void launch();
     private:
@@ -36,8 +36,10 @@ namespace plazza {
         std::vector<IPizza *> _pizzas;
         Stock _stock;
         const Ipc &_ipc;
-
+        const double _cookingTimeMultiplier;
+        const size_t _timeToReplaceIngredients;
         std::map<std::string, void (plazza::Kitchen::*)()> _actions;
+
         FRIEND_TEST(KitchenTest, create);
     };
 }

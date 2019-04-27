@@ -13,9 +13,11 @@
 #include "Kitchen.hpp"
 #include "SerializedPizza.hpp"
 
-plazza::Kitchen::Kitchen(const Ipc &ipc, size_t nbCooks) :
+plazza::Kitchen::Kitchen(const Ipc &ipc, double cookingTimeMultiplier, size_t nbCooks, size_t timeToReplaceIngredients) :
     _stock(5),
-    _ipc(ipc)
+    _ipc(ipc),
+    _cookingTimeMultiplier(cookingTimeMultiplier),
+    _timeToReplaceIngredients(timeToReplaceIngredients)
 {
     for (size_t i = 0; i < nbCooks; ++i)
         _cooks.emplace_back();
