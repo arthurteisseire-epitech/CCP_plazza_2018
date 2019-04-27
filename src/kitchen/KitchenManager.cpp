@@ -37,6 +37,7 @@ void plazza::KitchenManager::sendPizza(const SerializedPizza &serializedPizza)
         if (s == "yes" || s == "in stock") {
             std::cout << "is space : ok, send pizza..." << std::endl;
             p->send(serializedPizza, sizeof(plazza::SerializedPizza));
+            p->read();
             isSpace = true;
             break;
         }

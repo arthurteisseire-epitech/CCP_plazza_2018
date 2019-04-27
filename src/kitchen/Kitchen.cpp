@@ -85,11 +85,9 @@ void plazza::Kitchen::isSpaceForPizza()
 {
     if (isACookWaiting())
         _ipc.sendToParent("yes");
-    else if (_pizzas.size() < _cooks.size()) {
-        std::cout << "pizzas size : " << _pizzas.size() << std::endl;
-        std::cout << "cooks size : " << _cooks.size() << std::endl;
+    else if (_pizzas.size() < _cooks.size())
         _ipc.sendToParent("in stock");
-    } else
+    else
         _ipc.sendToParent("no");
 }
 
