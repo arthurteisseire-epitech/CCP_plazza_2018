@@ -20,6 +20,13 @@ plazza::KitchenManager::KitchenManager(size_t nbCooks) :
     };
 }
 
+plazza::KitchenManager::~KitchenManager()
+{
+    for (const auto &p : _processes)
+        p->send("kill");
+    _processes.clear();
+}
+
 void plazza::KitchenManager::sendOrder(Order &order)
 {
     while (!order.isEmpty())
@@ -86,12 +93,6 @@ int plazza::KitchenManager::findMaxFd()
     for (const auto &p : _processes)
         maxFd = std::max(p->getReadFd(), maxFd);
     return maxFd;
-}
-
-void plazza::KitchenManager::destroyKitchensProcesses()
-{
-    for (const auto &p : _processes)
-        p->send("kill");
 }
 
 void plazza::KitchenManager::removeKitchen(std::unique_ptr<Process<Kitchen>> &p)

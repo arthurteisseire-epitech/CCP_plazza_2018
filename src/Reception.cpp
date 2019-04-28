@@ -55,10 +55,8 @@ plazza::Reception::Status plazza::Reception::handleUserInput()
 {
     std::string line;
 
-    if (!getline(std::cin, line)) {
-        _kitchenManager.destroyKitchensProcesses();
+    if (!getline(std::cin, line))
         return END;
-    }
     execCommand(line);
     std::cout << "orders> " << std::flush;
     return CONTINUE;

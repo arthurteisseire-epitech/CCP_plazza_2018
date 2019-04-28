@@ -16,11 +16,12 @@ namespace plazza {
     class KitchenManager {
     public:
         explicit KitchenManager(size_t nbCooks);
+        ~KitchenManager();
+
         void sendOrder(Order &order);
         void addFdsToSet(fd_set *set) const;
         int findMaxFd();
         void handleEvents(fd_set *set);
-        void destroyKitchensProcesses();
         void printKitchensStatus();
     private:
         void sendPizza(const SerializedPizza &serializedPizza);
