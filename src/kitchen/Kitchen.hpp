@@ -43,6 +43,7 @@ namespace plazza {
         std::map<std::string, void (plazza::Kitchen::*)()> _actions;
 
         std::shared_ptr<std::mutex> _pizzasMutex;
+        std::shared_ptr<std::mutex> _ingredientsMutex;
 
         FRIEND_TEST(KitchenTest, create);
     };

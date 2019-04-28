@@ -27,11 +27,11 @@ namespace plazza {
         Stock stock(1);
         PizzaMargarita margarita(L);
 
-        ASSERT_TRUE(margarita.prepare(stock));
+        ASSERT_TRUE(margarita.prepare(0));
         ASSERT_EQ(stock.count(DOE), 0);
         ASSERT_EQ(stock.count(TOMATOE), 0);
         ASSERT_EQ(stock.count(GRUYERE), 0);
         ASSERT_EQ(stock.count(CHIEF_LOVE), 1);
-        ASSERT_FALSE(margarita.prepare(stock));
+        ASSERT_FALSE(margarita.prepare(0));
     }
 }

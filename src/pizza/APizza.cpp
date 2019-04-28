@@ -19,10 +19,9 @@ plazza::APizza::APizza(plazza::PizzaType type, plazza::PizzaSize size,
 {
 }
 
-bool plazza::APizza::prepare(Stock &stock, double timeMultiplier) const
+void plazza::APizza::prepare(double timeMultiplier) const
 {
     std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<size_t>(_time * timeMultiplier)));
-    return stock.takeEach(_ingredients);
 }
 
 plazza::SerializedPizza plazza::APizza::pack() const

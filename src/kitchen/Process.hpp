@@ -53,7 +53,7 @@ namespace plazza {
 
         std::string read() const
         {
-            char buffer[4096];
+            char buffer[200000];
 
             ipc.readChildInput(buffer, sizeof(buffer));
             return std::string(buffer);

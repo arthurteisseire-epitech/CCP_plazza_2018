@@ -21,11 +21,12 @@ plazza::Kitchen::Kitchen(const Ipc &ipc, double cookingTimeMultiplier, size_t nb
     _ipc(ipc),
     _cookingTimeMultiplier(cookingTimeMultiplier),
     _timeToReplaceIngredients(timeToReplaceIngredients),
-    _pizzasMutex(std::make_unique<std::mutex>())
+    _pizzasMutex(std::make_unique<std::mutex>()),
+    _ingredientsMutex(std::make_unique<std::mutex>())
 {
     _cooks.reserve(nbCooks);
     for (size_t i = 0; i < nbCooks; ++i) {
-        _cooks.emplace_back(_cookingTimeMultiplier, _stock, _pizzas, _pizzasMutex);
+        _cooks.emplace_back(_cookingTimeMultiplier, _stock, _pizzas, _pizzasMutex, _ingredientsMutex);
     }
 
     _actions = {
@@ -76,8 +77,6 @@ void plazza::Kitchen::execCommand(const char *buff)
 
 void plazza::Kitchen::managePizza(IPizza *pizza)
 {
-//    std::unique_lock<std::mutex> locker(this->_nap);
-
     _pizzas.push(pizza);
 #ifdef PLAZZADEBUG
     std::cout << "Kitchen Added pizza to queue" << std::endl;
@@ -116,6 +115,7 @@ void plazza::Kitchen::sendStatus()
     std::string status;
     std::string cookStatus = "busy";
 
+    status += "nbPizza";
     for (size_t i = 0; i < _cooks.size(); ++i) {
         if (_cooks[i].getStatus() == Cook::WAITING)
             cookStatus = "waiting";

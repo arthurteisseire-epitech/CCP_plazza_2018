@@ -20,7 +20,8 @@ namespace plazza {
             COOKING
         };
 
-        Cook(double cookingTimeMultiplier, Stock &stock, std::queue<IPizza *> &queue, std::shared_ptr<std::mutex> pizzasMutex);
+        Cook(double cookingTimeMultiplier, Stock &stock, std::queue<IPizza *> &queue,
+             std::shared_ptr<std::mutex> pizzasMutex, std::shared_ptr<std::mutex> ingredientsMutex);
         ~Cook();
         status getStatus() const;
 
@@ -38,6 +39,7 @@ namespace plazza {
         IPizza *_pizzaToPrepare;
         std::thread *_thread;
         std::shared_ptr<std::mutex> _pizzasMutex;
+        std::shared_ptr<std::mutex> _ingredientsMutex;
     };
 }
 

@@ -15,7 +15,7 @@ namespace plazza {
     class IPizza {
     public:
         virtual ~IPizza() = default;
-        virtual bool prepare(Stock &stock, double timeMultiplier) const = 0;
+        virtual void prepare(double timeMultiplier) const = 0;
         virtual SerializedPizza pack() const = 0;
         virtual const std::vector<Ingredient> &getIngredients() const = 0;
     };

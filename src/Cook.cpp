@@ -10,12 +10,14 @@
 #include <queue>
 #include "Cook.hpp"
 
-plazza::Cook::Cook(double cookingTimeMultiplier, Stock &stock, std::queue<IPizza *> &queue, std::shared_ptr<std::mutex> pizzasMutex) :
+plazza::Cook::Cook(double cookingTimeMultiplier, Stock &stock, std::queue<IPizza *> &queue,
+                   std::shared_ptr<std::mutex> pizzasMutex, std::shared_ptr<std::mutex> ingredientsMutex) :
     _cookingTimeMultiplier(cookingTimeMultiplier),
     _status(WAITING),
     _stock(stock),
     _queue(queue),
-    _pizzasMutex(std::move(pizzasMutex))
+    _pizzasMutex(std::move(pizzasMutex)),
+    _ingredientsMutex(std::move(ingredientsMutex))
 {
     _start();
 }
@@ -55,11 +57,15 @@ bool plazza::Cook::waitPizza()
 
 void plazza::Cook::preparePizza()
 {
+    bool containsEach;
     _status = COOKING;
     _getPizzaInStock();
     _pizzasMutex->unlock();
-    if (_stock.containsEach(_pizzaToPrepare->getIngredients()))
-        _pizzaToPrepare->prepare(_stock, _cookingTimeMultiplier);
+    _ingredientsMutex->lock();
+    containsEach = _stock.takeEach(_pizzaToPrepare->getIngredients());
+    _ingredientsMutex->unlock();
+    if (containsEach)
+        _pizzaToPrepare->prepare(_cookingTimeMultiplier);
 #ifdef PLAZZADEBUG
     else
         std::cout << "no more ingredients in stock" << std::endl;
