@@ -22,8 +22,8 @@ plazza::Reception::Reception(double cookingTime, size_t nbCooks, size_t timeToRe
 
 void plazza::Reception::open()
 {
-    Status status = CONTINUE;
     fd_set set;
+    Status status = CONTINUE;
 
     std::cout << "orders> " << std::flush;
     while (status == CONTINUE) {
@@ -46,7 +46,8 @@ plazza::Reception::Status plazza::Reception::handleEvents(fd_set *set)
 
     if (FD_ISSET(0, set))
         status = handleUserInput();
-    _kitchenManager.handleEvents(set);
+    if (status == CONTINUE)
+        _kitchenManager.handleEvents(set);
     return status;
 }
 
