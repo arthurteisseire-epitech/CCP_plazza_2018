@@ -114,9 +114,13 @@ bool plazza::Kitchen::isACookWaiting()
 void plazza::Kitchen::sendStatus()
 {
     std::string status;
+    std::string cookStatus = "busy";
 
-    for (size_t i = 0; i < _cooks.size(); ++i)
-        status += "\tCook " + std::to_string(i) + ": waiting/busy\n";
+    for (size_t i = 0; i < _cooks.size(); ++i) {
+        if (_cooks[i].getStatus() == Cook::WAITING)
+            cookStatus = "waiting";
+        status += "\tCook " + std::to_string(i) + ": " + cookStatus + "\n";
+    }
     _ipc.sendToParent(status.c_str());
 }
 
