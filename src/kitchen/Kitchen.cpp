@@ -112,13 +112,3 @@ void plazza::Kitchen::sendStatus()
     }
     _ipc.sendToParent(status.c_str());
 }
-
-plazza::IPizza *plazza::Kitchen::getPizza()
-{
-    IPizza *res = this->_pizzas.front();
-
-    if (res == nullptr)
-        return (nullptr);
-    this->_pizzas.pop();
-    return (res);
-}

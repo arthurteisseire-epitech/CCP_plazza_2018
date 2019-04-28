@@ -23,7 +23,6 @@ namespace plazza {
         explicit Kitchen(const Ipc &ipc, double cookingTimeMultiplier, size_t nbCooks, size_t timeToReplaceIngredients);
 
         void launch();
-        IPizza *getPizza();
     private:
         void execCommand(const char *buff);
         bool isTimeout() const;
