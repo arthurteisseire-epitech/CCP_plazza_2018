@@ -45,26 +45,32 @@ plazza::Reception::Status plazza::Reception::handleEvents(fd_set *set)
     Status status = CONTINUE;
 
     if (FD_ISSET(0, set))
-        status = sendOrderFromUserInput();
+        status = handleUserInput();
     _kitchenManager.handleEvents(set);
     return status;
 }
 
-plazza::Reception::Status plazza::Reception::sendOrderFromUserInput()
+plazza::Reception::Status plazza::Reception::handleUserInput()
 {
     std::string line;
-    Order order;
 
     if (!getline(std::cin, line)) {
         _kitchenManager.destroyKitchensProcesses();
         return END;
     }
+    execCommand(line);
+    std::cout << "orders> " << std::flush;
+    return CONTINUE;
+}
+
+void plazza::Reception::execCommand(const std::string &line)
+{
+    Order order;
+
     if (line == "status") {
         _kitchenManager.printKitchensStatus();
     } else {
         order = plazza::OrderParser::parseLine(line);
         _kitchenManager.sendOrder(order);
     }
-    std::cout << "orders> " << std::flush;
-    return CONTINUE;
 }

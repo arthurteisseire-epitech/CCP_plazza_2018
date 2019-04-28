@@ -19,7 +19,8 @@ namespace plazza {
         enum Status {END, CONTINUE};
         void waitAnyEvent(fd_set *set);
         Status handleEvents(fd_set *set);
-        Status sendOrderFromUserInput();
+        Status handleUserInput();
+        void execCommand(const std::string &line);
 
         KitchenManager _kitchenManager;
         double _cookingTimeMultiplier;
