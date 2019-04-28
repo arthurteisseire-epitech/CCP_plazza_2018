@@ -22,6 +22,7 @@ namespace plazza {
     public:
         bool prepare(Stock &stock, double timeMultiplier) const override;
         SerializedPizza pack() const override ;
+        const std::vector<Ingredient> &getIngredients() const;
     protected:
         APizza(PizzaType type, PizzaSize size, std::vector<Ingredient> ingredients, size_t time);
     private:

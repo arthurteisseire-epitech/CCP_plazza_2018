@@ -79,16 +79,17 @@ void plazza::Kitchen::managePizza(IPizza *pizza)
 //    std::unique_lock<std::mutex> locker(this->_nap);
 
     _pizzas.push(pizza);
-//    locker.unlock();
+#ifdef PLAZZADEBUG
     std::cout << "Kitchen Added pizza to queue" << std::endl;
-//    _alert.notify_one();
+#endif
     _ipc.sendToParent("add pizza ok");
-//    std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 }
 
 void plazza::Kitchen::kill()
 {
+#ifdef PLAZZADEBUG
     std::cout << "kicthen receive kill" << std::endl;
+#endif
     exit(0);
 }
 

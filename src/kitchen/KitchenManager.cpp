@@ -40,7 +40,9 @@ void plazza::KitchenManager::sendPizza(const SerializedPizza &serializedPizza)
     auto p = findAvailableKitchen();
 
     if (p == nullptr) {
+#ifdef PLAZZADEBUG
         std::cout << "no space : kitchen creation..." << std::endl;
+#endif
         _processes.emplace_back(std::make_unique<plazza::Process<plazza::Kitchen>>());
         _processes.back()->create(_cookingTimeMultiplier, _nbCooks, _timeToReplaceIngredients);
         p = _processes.back().get();
@@ -57,7 +59,9 @@ plazza::Process<plazza::Kitchen> *plazza::KitchenManager::findAvailableKitchen()
         p->send("isSpace");
         s = p->read();
         if (s == "yes" || s == "in stock") {
+#ifdef PLAZZADEBUG
             std::cout << "is space : ok, send pizza..." << std::endl;
+#endif
             return p.get();
         }
     }
@@ -100,7 +104,9 @@ int plazza::KitchenManager::findMaxFd() const
 void plazza::KitchenManager::removeKitchen(std::unique_ptr<Process<Kitchen>> &p)
 {
     _processes.erase(std::find(_processes.begin(), _processes.end(), p));
+#ifdef PLAZZADEBUG
     std::cout << "kitchen destroyed..." << std::endl;
+#endif
 }
 
 void plazza::KitchenManager::printKitchensStatus() const

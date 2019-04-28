@@ -21,7 +21,6 @@ plazza::APizza::APizza(plazza::PizzaType type, plazza::PizzaSize size,
 
 bool plazza::APizza::prepare(Stock &stock, double timeMultiplier) const
 {
-    std::cout << _time * timeMultiplier << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<size_t>(_time * timeMultiplier)));
     return stock.takeEach(_ingredients);
 }
@@ -29,4 +28,9 @@ bool plazza::APizza::prepare(Stock &stock, double timeMultiplier) const
 plazza::SerializedPizza plazza::APizza::pack() const
 {
     return {_type, _size};
+}
+
+const std::vector<plazza::Ingredient> &plazza::APizza::getIngredients() const
+{
+    return _ingredients;
 }

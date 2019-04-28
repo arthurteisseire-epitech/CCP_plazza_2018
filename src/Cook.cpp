@@ -1,5 +1,3 @@
-#include <utility>
-
 /*
 ** EPITECH PROJECT, 2018
 ** plazza
@@ -8,6 +6,7 @@
 */
 
 #include <iostream>
+#include <utility>
 #include <queue>
 #include "Cook.hpp"
 
@@ -19,7 +18,6 @@ plazza::Cook::Cook(double cookingTimeMultiplier, Stock &stock, std::queue<IPizza
     _pizzasMutex(std::move(pizzasMutex))
 {
     _start();
-    std::cout << "Cook created!" << std::endl;
 }
 
 plazza::Cook::~Cook()
@@ -57,11 +55,15 @@ bool plazza::Cook::waitPizza()
 
 void plazza::Cook::preparePizza()
 {
-    std::cout << "getting pizza in stock..." << std::endl;
+    _status = COOKING;
     _getPizzaInStock();
     _pizzasMutex->unlock();
-    std::cout << "I'm preparing..." << std::endl;
-    _pizzaToPrepare->prepare(_stock, _cookingTimeMultiplier);
-//    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+    if (_stock.containsEach(_pizzaToPrepare->getIngredients()))
+        _pizzaToPrepare->prepare(_stock, _cookingTimeMultiplier);
+#ifdef PLAZZADEBUG
+    else
+        std::cout << "no more ingredients in stock" << std::endl;
     std::cout << "pizza done!" << std::endl;
+#endif
+    _status = WAITING;
 }

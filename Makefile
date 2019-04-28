@@ -43,7 +43,7 @@ fclean: clean
 
 re: fclean all
 
-debug: CXXFLAGS += -g
+debug: CXXFLAGS += -g -DPLAZZADEBUG
 debug: re
 
 tests_run: CXXFLAGS += --coverage -lgcov
