@@ -26,27 +26,26 @@ void plazza::Reception::open()
 
     std::cout << "orders> " << std::flush;
     while (true) {
-        waitAnyInput(&set);
-        handleEvent(&set);
+        waitAnyEvent(&set);
+        handleEvents(&set);
     }
 }
 
-void plazza::Reception::waitAnyInput(fd_set *set)
+void plazza::Reception::waitAnyEvent(fd_set *set)
 {
     FD_ZERO(set);
-    _kitchenManager.addFdsToSet(set);
     FD_SET(0, set);
+    _kitchenManager.addFdsToSet(set);
     select(_kitchenManager.findMaxFd() + 1, set, nullptr, nullptr, nullptr);
 }
 
-void plazza::Reception::handleEvent(fd_set *set)
+void plazza::Reception::handleEvents(fd_set *set)
 {
     if (FD_ISSET(0, set)) {
         sendOrderFromUserInput();
         std::cout << "orders> " << std::flush;
     }
-    if (_kitchenManager.isFdSet(set))
-        _kitchenManager.handleEvents(set);
+    _kitchenManager.handleEvents(set);
 }
 
 void plazza::Reception::sendOrderFromUserInput()

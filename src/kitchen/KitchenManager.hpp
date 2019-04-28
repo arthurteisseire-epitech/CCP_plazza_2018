@@ -20,7 +20,6 @@ namespace plazza {
         void addFdsToSet(fd_set *set) const;
         int findMaxFd();
         void handleEvents(fd_set *set);
-        bool isFdSet(fd_set *set);
         void destroyKitchensProcesses();
         void printKitchensStatus();
     private:

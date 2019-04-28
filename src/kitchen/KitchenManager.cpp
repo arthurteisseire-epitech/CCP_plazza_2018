@@ -89,14 +89,6 @@ int plazza::KitchenManager::findMaxFd()
     return maxFd;
 }
 
-bool plazza::KitchenManager::isFdSet(fd_set *set)
-{
-    for (const auto &p : _processes)
-        if (FD_ISSET(p->getReadFd(), set))
-            return true;
-    return false;
-}
-
 void plazza::KitchenManager::destroyKitchensProcesses()
 {
     for (const auto &p : _processes)
