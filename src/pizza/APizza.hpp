@@ -20,7 +20,7 @@
 namespace plazza {
     class APizza : public IPizza {
     public:
-        bool prepare(Stock &stock) const override;
+        bool prepare(Stock &stock, double timeMultiplier) const override;
         SerializedPizza pack() const override ;
     protected:
         APizza(PizzaType type, PizzaSize size, std::vector<Ingredient> ingredients, size_t time);

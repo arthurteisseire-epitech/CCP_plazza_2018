@@ -1,3 +1,5 @@
+#include <utility>
+
 /*
 ** EPITECH PROJECT, 2018
 ** plazza
@@ -9,10 +11,12 @@
 #include <queue>
 #include "Cook.hpp"
 
-plazza::Cook::Cook(Stock &stock, std::queue<IPizza *> &queue) :
+plazza::Cook::Cook(double cookingTimeMultiplier, Stock &stock, std::queue<IPizza *> &queue, std::shared_ptr<std::mutex> pizzasMutex) :
+    _cookingTimeMultiplier(cookingTimeMultiplier),
     _status(WAITING),
     _stock(stock),
-    _queue(queue)
+    _queue(queue),
+    _pizzasMutex(std::move(pizzasMutex))
 {
     _start();
     std::cout << "Cook created!" << std::endl;
@@ -38,6 +42,7 @@ void plazza::Cook::_getPizzaInStock()
 void plazza::Cook::_start()
 {
     _thread = new std::thread([this]() {
+        _pizzasMutex->lock();
         while (1) {
             if (waitPizza())
                 preparePizza();
@@ -52,9 +57,11 @@ bool plazza::Cook::waitPizza()
 
 void plazza::Cook::preparePizza()
 {
-    std::cout << "I got a Pizza!" << std::endl;
+    std::cout << "getting pizza in stock..." << std::endl;
     _getPizzaInStock();
+    _pizzasMutex->unlock();
     std::cout << "I'm preparing..." << std::endl;
-    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+    _pizzaToPrepare->prepare(_stock, _cookingTimeMultiplier);
+//    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
     std::cout << "pizza done!" << std::endl;
 }

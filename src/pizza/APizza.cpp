@@ -6,6 +6,8 @@
 */
 
 #include <utility>
+#include <thread>
+#include <iostream>
 #include "APizza.hpp"
 
 plazza::APizza::APizza(plazza::PizzaType type, plazza::PizzaSize size,
@@ -17,8 +19,10 @@ plazza::APizza::APizza(plazza::PizzaType type, plazza::PizzaSize size,
 {
 }
 
-bool plazza::APizza::prepare(Stock &stock) const
+bool plazza::APizza::prepare(Stock &stock, double timeMultiplier) const
 {
+    std::cout << _time * timeMultiplier << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<size_t>(_time * timeMultiplier)));
     return stock.takeEach(_ingredients);
 }
 

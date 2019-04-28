@@ -42,6 +42,8 @@ namespace plazza {
         const size_t _timeToReplaceIngredients;
         std::map<std::string, void (plazza::Kitchen::*)()> _actions;
 
+        std::shared_ptr<std::mutex> _pizzasMutex;
+
         FRIEND_TEST(KitchenTest, create);
     };
 }

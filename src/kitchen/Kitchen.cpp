@@ -20,11 +20,12 @@ plazza::Kitchen::Kitchen(const Ipc &ipc, double cookingTimeMultiplier, size_t nb
     _stock(5),
     _ipc(ipc),
     _cookingTimeMultiplier(cookingTimeMultiplier),
-    _timeToReplaceIngredients(timeToReplaceIngredients)
+    _timeToReplaceIngredients(timeToReplaceIngredients),
+    _pizzasMutex(std::make_unique<std::mutex>())
 {
     _cooks.reserve(nbCooks);
     for (size_t i = 0; i < nbCooks; ++i) {
-        _cooks.emplace_back(this->_stock, this->_pizzas);
+        _cooks.emplace_back(_cookingTimeMultiplier, _stock, _pizzas, _pizzasMutex);
     }
 
     _actions = {
