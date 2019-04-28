@@ -48,7 +48,7 @@ bool plazza::Kitchen::isTimeout() const
     FD_SET(_ipc.getChildFd(), &set);
     select(_ipc.getChildFd() + 1, &set, nullptr, nullptr, &time);
     if (!FD_ISSET(_ipc.getChildFd(), &set)) {
-        write(_ipc.getChildFd(), "timeout", sizeof("timeout"));
+        _ipc.sendToParent("timeout");
         return true;
     }
     return false;
