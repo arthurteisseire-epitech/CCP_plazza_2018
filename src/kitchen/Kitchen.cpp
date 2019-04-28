@@ -10,8 +10,10 @@
 #include <cstring>
 #include <iostream>
 #include <algorithm>
+#include <chrono>
 #include "Kitchen.hpp"
 #include "SerializedPizza.hpp"
+#include "Cook.hpp"
 
 plazza::Kitchen::Kitchen(const Ipc &ipc, double cookingTimeMultiplier, size_t nbCooks, size_t timeToReplaceIngredients) :
     _stock(5),
@@ -20,7 +22,8 @@ plazza::Kitchen::Kitchen(const Ipc &ipc, double cookingTimeMultiplier, size_t nb
     _timeToReplaceIngredients(timeToReplaceIngredients)
 {
     for (size_t i = 0; i < nbCooks; ++i)
-        _cooks.emplace_back();
+        _cooks.emplace_back(this->_stock, this->_pizzas, this->_nap,
+                this->_alert);
 
     _actions = {
         {"kill", &plazza::Kitchen::kill},
@@ -74,8 +77,14 @@ void plazza::Kitchen::execCommand(const char *buff)
 
 void plazza::Kitchen::managePizza(IPizza *pizza)
 {
-    _pizzas.emplace_back(pizza);
+    std::unique_lock<std::mutex> locker(this->_nap);
+
+    _pizzas.push(pizza);
+    locker.unlock();
+    this->_alert.notify_one();
+    std::cout << "Kitchen Added pizza to queue" << std::endl;
     _ipc.sendToParent("add pizza ok");
+    std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 }
 
 void plazza::Kitchen::kill()
@@ -96,6 +105,9 @@ void plazza::Kitchen::isSpaceForPizza()
 
 bool plazza::Kitchen::isACookWaiting()
 {
+    for (auto cook : this->_cooks)
+        if (cook.getStatus() == Cook::WAITING)
+            return true;
     return false;
 }
 
@@ -106,4 +118,14 @@ void plazza::Kitchen::sendStatus()
     for (size_t i = 0; i < _cooks.size(); ++i)
         status += "\tCook " + std::to_string(i) + ": waiting/busy\n";
     _ipc.sendToParent(status.c_str());
+}
+
+plazza::IPizza *plazza::Kitchen::getPizza()
+{
+    IPizza *res = this->_pizzas.front();
+
+    if (res == nullptr)
+        return (nullptr);
+    this->_pizzas.pop();
+    return (res);
 }

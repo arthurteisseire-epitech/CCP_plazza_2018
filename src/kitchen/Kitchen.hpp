@@ -10,6 +10,8 @@
 
 #include <gtest/gtest_prod.h>
 #include <vector>
+#include <condition_variable>
+#include <queue>
 #include "IPizza.hpp"
 #include "Cook.hpp"
 #include "Stock.hpp"
@@ -21,6 +23,7 @@ namespace plazza {
         explicit Kitchen(const Ipc &ipc, double cookingTimeMultiplier, size_t nbCooks, size_t timeToReplaceIngredients);
 
         void launch();
+        IPizza *getPizza();
     private:
         void waitCommand();
         void execCommand(const char *buff);
@@ -33,12 +36,14 @@ namespace plazza {
         bool isACookWaiting();
 
         std::vector<Cook> _cooks;
-        std::vector<IPizza *> _pizzas;
+        std::queue<IPizza *> _pizzas;
         Stock _stock;
         const Ipc &_ipc;
         const double _cookingTimeMultiplier;
         const size_t _timeToReplaceIngredients;
         std::map<std::string, void (plazza::Kitchen::*)()> _actions;
+        std::mutex _nap;
+        std::condition_variable _alert;
 
         FRIEND_TEST(KitchenTest, create);
     };

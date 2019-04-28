@@ -10,6 +10,7 @@
 
 #include <map>
 #include <vector>
+#include <mutex>
 #include "Ingredient.hpp"
 
 namespace plazza {
@@ -25,6 +26,7 @@ namespace plazza {
         bool containsEach(const std::vector<Ingredient> &ingredients) const;
     private:
         std::map<Ingredient, size_t> _ingredients;
+        std::mutex _ingredientsLock;
     };
 }
 
