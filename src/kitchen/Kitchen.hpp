@@ -27,6 +27,7 @@ namespace plazza {
         void execCommand(const char *buff);
         bool isTimeout() const;
 
+        bool isACookBusy() const;
         void kill();
         void isSpaceForPizza();
         void sendStatus();

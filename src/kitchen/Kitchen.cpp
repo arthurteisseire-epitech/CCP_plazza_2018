@@ -47,7 +47,7 @@ void plazza::Kitchen::launch()
 {
     char buffer[4096];
 
-    while (true) {
+    while (!isTimeout()) {
         _ipc.readParentInput(buffer, sizeof(buffer));
         execCommand(buffer);
     }
@@ -61,7 +61,7 @@ bool plazza::Kitchen::isTimeout() const
     FD_ZERO(&set);
     FD_SET(_ipc.getChildFd(), &set);
     select(_ipc.getChildFd() + 1, &set, nullptr, nullptr, &time);
-    if (!FD_ISSET(_ipc.getChildFd(), &set)) {
+    if (!FD_ISSET(_ipc.getChildFd(), &set) && _pizzas.empty() && !isACookBusy()) {
         _ipc.sendToParent("timeout");
         return true;
     }
@@ -105,6 +105,14 @@ void plazza::Kitchen::isSpaceForPizza()
         _ipc.sendToParent("yes");
     else
         _ipc.sendToParent("no");
+}
+
+bool plazza::Kitchen::isACookBusy() const
+{
+    for (auto &cook : this->_cooks)
+        if (cook.getStatus() == Cook::COOKING)
+            return true;
+    return false;
 }
 
 void plazza::Kitchen::sendStatus()
