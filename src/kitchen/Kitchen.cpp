@@ -24,8 +24,7 @@ plazza::Kitchen::Kitchen(const Ipc &ipc, double cookingTimeMultiplier, size_t nb
 {
     _cooks.reserve(nbCooks);
     for (size_t i = 0; i < nbCooks; ++i) {
-        _cooks.emplace_back(this->_stock, this->_pizzas, this->_nap,
-                            this->_alert);
+        _cooks.emplace_back(this->_stock, this->_pizzas);
     }
 
     _actions = {

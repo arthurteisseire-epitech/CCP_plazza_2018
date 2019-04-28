@@ -20,8 +20,7 @@ namespace plazza {
             COOKING
         };
 
-        Cook(Stock &stock, std::queue<IPizza *> &queue, std::mutex &nap,
-                std::condition_variable &alert);
+        Cook(Stock &stock, std::queue<IPizza *> &queue);
         ~Cook();
         status getStatus() const;
 
@@ -35,8 +34,6 @@ namespace plazza {
         status _status;
         Stock &_stock;
         std::queue<IPizza *> &_queue;
-        std::mutex &_nap;
-        std::condition_variable &_alert;
         IPizza *_pizzaToPrepare;
         std::thread *_thread;
     };

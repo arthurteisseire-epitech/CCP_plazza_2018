@@ -41,8 +41,6 @@ namespace plazza {
         const double _cookingTimeMultiplier;
         const size_t _timeToReplaceIngredients;
         std::map<std::string, void (plazza::Kitchen::*)()> _actions;
-        std::mutex _nap;
-        std::condition_variable _alert;
 
         FRIEND_TEST(KitchenTest, create);
     };
