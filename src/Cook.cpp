@@ -33,39 +33,32 @@ plazza::Cook::status plazza::Cook::getStatus() const
     return _status;
 }
 
-void plazza::Cook::_getPizzaInStock()
-{
-    _pizzaToPrepare = _queue.front();
-    _queue.pop();
-}
-
 void plazza::Cook::_start()
 {
     _thread = new std::thread([this]() {
-        _pizzasMutex->lock();
-        while (1) {
-            if (waitPizza())
-                preparePizza();
+        while (true) {
+            _pizzasMutex->lock();
+            while (_queue.empty());
+            preparePizza();
         }
     });
-}
-
-bool plazza::Cook::waitPizza()
-{
-    return !_queue.empty();
 }
 
 void plazza::Cook::preparePizza()
 {
     bool containsEach;
+
     _status = COOKING;
-    _getPizzaInStock();
-    _pizzasMutex->unlock();
+    _pizzaToPrepare = _queue.front();
     _ingredientsMutex->lock();
     containsEach = _stock.takeEach(_pizzaToPrepare->getIngredients());
     _ingredientsMutex->unlock();
-    if (containsEach)
+    if (containsEach) {
+        _queue.pop();
+        _pizzasMutex->unlock();
         _pizzaToPrepare->prepare(_cookingTimeMultiplier);
+    } else
+        _pizzasMutex->unlock();
 #ifdef PLAZZADEBUG
     else
         std::cout << "no more ingredients in stock" << std::endl;

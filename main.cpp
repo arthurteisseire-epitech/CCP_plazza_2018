@@ -23,6 +23,10 @@ int main(int ac, const char *av[])
     plazza::ArgParser parser = parseArgs(ac, av);
     plazza::Reception reception(parser.getCookingTimeMultiplier(), parser.getNbCooks(), parser.getTimeToReplaceIngredient());
 
-    reception.open();
+    try {
+        reception.open();
+    } catch (const std::exception &e) {
+        std::cout << e.what() << std::endl;
+    }
     return 0;
 }
