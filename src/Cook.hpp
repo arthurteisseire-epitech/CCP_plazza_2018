@@ -28,7 +28,9 @@ namespace plazza {
         private:
         void _start();
         void _getPizzaInStock();
-        void _preparePizza();
+
+        bool waitPizza();
+        void preparePizza();
 
         status _status;
         Stock &_stock;

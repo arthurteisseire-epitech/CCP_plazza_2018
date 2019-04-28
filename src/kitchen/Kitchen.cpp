@@ -15,20 +15,23 @@
 #include "SerializedPizza.hpp"
 #include "Cook.hpp"
 
-plazza::Kitchen::Kitchen(const Ipc &ipc, double cookingTimeMultiplier, size_t nbCooks, size_t timeToReplaceIngredients) :
+plazza::Kitchen::Kitchen(const Ipc &ipc, double cookingTimeMultiplier, size_t nbCooks, size_t timeToReplaceIngredients)
+    :
     _stock(5),
     _ipc(ipc),
     _cookingTimeMultiplier(cookingTimeMultiplier),
     _timeToReplaceIngredients(timeToReplaceIngredients)
 {
-    for (size_t i = 0; i < nbCooks; ++i)
+    _cooks.reserve(nbCooks);
+    for (size_t i = 0; i < nbCooks; ++i) {
         _cooks.emplace_back(this->_stock, this->_pizzas, this->_nap,
-                this->_alert);
+                            this->_alert);
+    }
 
     _actions = {
-        {"kill", &plazza::Kitchen::kill},
+        {"kill",    &plazza::Kitchen::kill},
         {"isSpace", &plazza::Kitchen::isSpaceForPizza},
-        {"status", &plazza::Kitchen::sendStatus},
+        {"status",  &plazza::Kitchen::sendStatus},
     };
 }
 
@@ -36,7 +39,7 @@ void plazza::Kitchen::launch()
 {
     char buffer[4096];
 
-    while (!isTimeout()) {
+    while (true) {
         _ipc.readParentInput(buffer, sizeof(buffer));
         execCommand(buffer);
     }
@@ -73,14 +76,14 @@ void plazza::Kitchen::execCommand(const char *buff)
 
 void plazza::Kitchen::managePizza(IPizza *pizza)
 {
-    std::unique_lock<std::mutex> locker(this->_nap);
+//    std::unique_lock<std::mutex> locker(this->_nap);
 
     _pizzas.push(pizza);
-    locker.unlock();
-    this->_alert.notify_one();
+//    locker.unlock();
     std::cout << "Kitchen Added pizza to queue" << std::endl;
+//    _alert.notify_one();
     _ipc.sendToParent("add pizza ok");
-    std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+//    std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 }
 
 void plazza::Kitchen::kill()
@@ -101,7 +104,7 @@ void plazza::Kitchen::isSpaceForPizza()
 
 bool plazza::Kitchen::isACookWaiting()
 {
-    for (auto cook : this->_cooks)
+    for (auto &cook : this->_cooks)
         if (cook.getStatus() == Cook::WAITING)
             return true;
     return false;
