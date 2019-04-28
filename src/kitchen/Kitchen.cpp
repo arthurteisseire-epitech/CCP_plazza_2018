@@ -29,6 +29,13 @@ plazza::Kitchen::Kitchen(const Ipc &ipc, double cookingTimeMultiplier, size_t nb
         _cooks.emplace_back(_cookingTimeMultiplier, _stock, _pizzas, _pizzasMutex, _ingredientsMutex);
     }
 
+    _stockThread = std::make_unique<std::thread>([this]() {
+        while (true) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(_timeToReplaceIngredients));
+            _stock.addEach();
+        }
+    });
+
     _actions = {
         {"kill",    &plazza::Kitchen::kill},
         {"isSpace", &plazza::Kitchen::isSpaceForPizza},

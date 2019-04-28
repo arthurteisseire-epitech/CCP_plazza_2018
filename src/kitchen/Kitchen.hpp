@@ -40,6 +40,8 @@ namespace plazza {
         const size_t _timeToReplaceIngredients;
         std::map<std::string, void (plazza::Kitchen::*)()> _actions;
 
+        std::unique_ptr<std::thread> _stockThread;
+
         std::shared_ptr<std::mutex> _pizzasMutex;
         std::shared_ptr<std::mutex> _ingredientsMutex;
 
