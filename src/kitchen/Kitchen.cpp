@@ -120,6 +120,7 @@ void plazza::Kitchen::sendStatus()
     std::string status;
     std::string cookStatus = "busy";
 
+    status += "nb pizza in stock : " + std::to_string(_pizzas.size()) + "\n";
     for (size_t i = 0; i < _cooks.size(); ++i) {
         if (_cooks[i].getStatus() == Cook::WAITING)
             cookStatus = "waiting";
