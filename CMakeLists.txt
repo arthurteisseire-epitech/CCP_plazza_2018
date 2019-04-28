@@ -13,4 +13,4 @@ add_executable(${CMAKE_PROJECT_NAME} ${sources} ${main})
 target_link_libraries(${CMAKE_PROJECT_NAME})
 
 add_executable(tests ${sources} ${tests})
-target_link_libraries(tests gtest gtest_main)
+target_link_libraries(tests gtest gtest_main pthread)

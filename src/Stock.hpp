@@ -24,6 +24,7 @@ namespace plazza {
         bool contains(Ingredient ingredient) const;
         bool contains(size_t quantity, Ingredient ingredient) const;
         bool containsEach(const std::vector<Ingredient> &ingredients) const;
+        void addEach();
     private:
         std::map<Ingredient, size_t> _ingredients;
         std::mutex _ingredientsLock;

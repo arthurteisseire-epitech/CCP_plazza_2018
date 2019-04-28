@@ -72,3 +72,9 @@ bool plazza::Stock::containsEach(const std::vector<plazza::Ingredient> &ingredie
             return false;
     return true;
 }
+
+void plazza::Stock::addEach()
+{
+    for (auto &i : _ingredients)
+        ++i.second;
+}

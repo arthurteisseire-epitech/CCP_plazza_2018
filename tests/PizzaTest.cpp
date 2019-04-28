@@ -21,17 +21,4 @@ namespace plazza {
         EXPECT_EQ(margarita._time, 1000);
         EXPECT_EQ(margarita._ingredients.size(), 3);
     }
-
-    TEST(PizzaTest, prepare)
-    {
-        Stock stock(1);
-        PizzaMargarita margarita(L);
-
-        ASSERT_TRUE(margarita.prepare(0));
-        ASSERT_EQ(stock.count(DOE), 0);
-        ASSERT_EQ(stock.count(TOMATOE), 0);
-        ASSERT_EQ(stock.count(GRUYERE), 0);
-        ASSERT_EQ(stock.count(CHIEF_LOVE), 1);
-        ASSERT_FALSE(margarita.prepare(0));
-    }
 }

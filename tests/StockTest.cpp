@@ -61,4 +61,20 @@ namespace plazza {
         ASSERT_TRUE(stock.takeEach(ingredients));
         ASSERT_FALSE(stock.takeEach(ingredients));
     }
+
+    TEST(StockTest, addEach)
+    {
+        Stock stock(4);
+
+        stock.addEach();
+        ASSERT_EQ(stock.count(DOE), 5);
+        ASSERT_EQ(stock.count(TOMATOE), 5);
+        ASSERT_EQ(stock.count(GRUYERE), 5);
+        ASSERT_EQ(stock.count(HAM), 5);
+        ASSERT_EQ(stock.count(MUSHROOMS), 5);
+        ASSERT_EQ(stock.count(STEAK), 5);
+        ASSERT_EQ(stock.count(EGGPLANT), 5);
+        ASSERT_EQ(stock.count(GOAT_CHEESE), 5);
+        ASSERT_EQ(stock.count(CHIEF_LOVE), 5);
+    }
 }
