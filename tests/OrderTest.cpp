@@ -17,30 +17,26 @@ namespace plazza {
         Order order;
 
         order.addPizza("regina", "XL", 4);
-        EXPECT_EQ(order._pizzas.size(), 4);
+        EXPECT_EQ(order._pizzas.size(), 1);
     }
 
     TEST(Order, takePizza)
     {
         Order order;
-        PizzaMargarita *margarita;
-        PizzaRegina *regina;
 
-        order.addPizza("margarita", "M", 1);
-        order.addPizza("regina", "L", 1);
-        margarita = dynamic_cast<PizzaMargarita *>(order.takePizza().unpack());
-        EXPECT_EQ(order._pizzas.size(), 1);
-        regina = dynamic_cast<PizzaRegina *>(order.takePizza().unpack());
-        EXPECT_EQ(order._pizzas.size(), 0);
-
-        EXPECT_EQ(margarita->_type, Margarita);
-        EXPECT_EQ(regina->_type, Regina);
+        order.addPizza("margarita", "M", 2);
+        order.addPizza("fantasia", "XL", 1);
+        order.addPizza("regina", "L", 3);
+        order.addPizza("americana", "XXL", 4);
+        for (size_t i = 0; i < 10; ++i)
+            order.takePizza();
+        EXPECT_TRUE(order.isEmpty());
     }
 
     TEST(Order, parseOrder)
     {
         Order order = OrderParser::parseLine("margarita S x3; americana L x12");
 
-        EXPECT_EQ(order._pizzas.size(), 15);
+        EXPECT_EQ(order._pizzas.size(), 2);
     }
 }
