@@ -12,8 +12,10 @@
 #include "KitchenManager.hpp"
 #include "Kitchen.hpp"
 
-plazza::KitchenManager::KitchenManager(size_t nbCooks) :
-    _nbCooks(nbCooks)
+plazza::KitchenManager::KitchenManager(double cookingTimeMultiplier, size_t nbCooks, size_t timeToReplaceIngredients) :
+    _cookingTimeMultiplier(cookingTimeMultiplier),
+    _nbCooks(nbCooks),
+    _timeToReplaceIngredients(timeToReplaceIngredients)
 {
     _actions = {
         {"timeout", &plazza::KitchenManager::removeKitchen},
@@ -40,7 +42,7 @@ void plazza::KitchenManager::sendPizza(const SerializedPizza &serializedPizza)
     if (p == nullptr) {
         std::cout << "no space : kitchen creation..." << std::endl;
         _processes.emplace_back(std::make_unique<plazza::Process<plazza::Kitchen>>());
-        _processes.back()->create(_nbCooks);
+        _processes.back()->create(_cookingTimeMultiplier, _nbCooks, _timeToReplaceIngredients);
         p = _processes.back().get();
     }
     p->send(serializedPizza, sizeof(plazza::SerializedPizza));
