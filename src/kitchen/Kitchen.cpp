@@ -34,20 +34,15 @@ plazza::Kitchen::Kitchen(const Ipc &ipc, double cookingTimeMultiplier, size_t nb
 
 void plazza::Kitchen::launch()
 {
-    while (true)
-        waitCommand();
+    char buffer[4096];
+
+    while (!isTimeout()) {
+        _ipc.readParentInput(buffer, sizeof(buffer));
+        execCommand(buffer);
+    }
 }
 
-void plazza::Kitchen::waitCommand()
-{
-    char buff[4096];
-
-    checkTimeout();
-    _ipc.readParentInput(buff, sizeof(buff));
-    execCommand(buff);
-}
-
-void plazza::Kitchen::checkTimeout() const
+bool plazza::Kitchen::isTimeout() const
 {
     struct timeval time = {5, 0};
     fd_set set;
@@ -56,9 +51,10 @@ void plazza::Kitchen::checkTimeout() const
     FD_SET(_ipc.getChildFd(), &set);
     select(_ipc.getChildFd() + 1, &set, nullptr, nullptr, &time);
     if (!FD_ISSET(_ipc.getChildFd(), &set)) {
-        write(_ipc.getChildFd(), "timeout", sizeof("timeout"));
-        exit(0);
+        _ipc.sendToParent("timeout");
+        return true;
     }
+    return false;
 }
 
 void plazza::Kitchen::execCommand(const char *buff)

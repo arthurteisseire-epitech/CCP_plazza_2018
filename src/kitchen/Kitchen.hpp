@@ -25,9 +25,8 @@ namespace plazza {
         void launch();
         IPizza *getPizza();
     private:
-        void waitCommand();
         void execCommand(const char *buff);
-        void checkTimeout() const;
+        bool isTimeout() const;
 
         void kill();
         void isSpaceForPizza();

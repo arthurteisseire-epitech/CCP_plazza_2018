@@ -15,14 +15,14 @@
 namespace plazza {
     class KitchenManager {
     public:
+        ~KitchenManager();
         KitchenManager(double cookingTimeMultiplier, size_t nbCooks, size_t timeToReplaceIngredients);
+
         void sendOrder(Order &order);
         void addFdsToSet(fd_set *set) const;
-        int findMaxFd();
+        int findMaxFd() const;
         void handleEvents(fd_set *set);
-        bool isFdSet(fd_set *set);
-        void destroyKitchensProcesses();
-        void printKitchensStatus();
+        void printKitchensStatus() const;
     private:
         void sendPizza(const SerializedPizza &serializedPizza);
         void execActionFromInput(std::unique_ptr<Process<Kitchen>> &p);

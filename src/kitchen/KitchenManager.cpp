@@ -22,6 +22,13 @@ plazza::KitchenManager::KitchenManager(double cookingTimeMultiplier, size_t nbCo
     };
 }
 
+plazza::KitchenManager::~KitchenManager()
+{
+    for (const auto &p : _processes)
+        p->send("kill");
+    _processes.clear();
+}
+
 void plazza::KitchenManager::sendOrder(Order &order)
 {
     while (!order.isEmpty())
@@ -59,7 +66,6 @@ plazza::Process<plazza::Kitchen> *plazza::KitchenManager::findAvailableKitchen()
 
 void plazza::KitchenManager::handleEvents(fd_set *set)
 {
-    std::cout << "nb kitchens : " << _processes.size() << std::endl;
     for (auto &p : _processes)
         if (FD_ISSET(p->getReadFd(), set)) {
             execActionFromInput(p);
@@ -82,7 +88,7 @@ void plazza::KitchenManager::addFdsToSet(fd_set *set) const
         FD_SET(p->getReadFd(), set);
 }
 
-int plazza::KitchenManager::findMaxFd()
+int plazza::KitchenManager::findMaxFd() const
 {
     int maxFd = 0;
 
@@ -91,27 +97,13 @@ int plazza::KitchenManager::findMaxFd()
     return maxFd;
 }
 
-bool plazza::KitchenManager::isFdSet(fd_set *set)
-{
-    for (const auto &p : _processes)
-        if (FD_ISSET(p->getReadFd(), set))
-            return true;
-    return false;
-}
-
-void plazza::KitchenManager::destroyKitchensProcesses()
-{
-    for (const auto &p : _processes)
-        p->send("kill");
-}
-
 void plazza::KitchenManager::removeKitchen(std::unique_ptr<Process<Kitchen>> &p)
 {
     _processes.erase(std::find(_processes.begin(), _processes.end(), p));
     std::cout << "kitchen destroyed..." << std::endl;
 }
 
-void plazza::KitchenManager::printKitchensStatus()
+void plazza::KitchenManager::printKitchensStatus() const
 {
     std::string kitchenStatus;
 

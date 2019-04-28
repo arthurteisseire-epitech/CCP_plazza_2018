@@ -13,25 +13,26 @@
 
 void plazza::Order::addPizza(const std::string &type, const std::string &size, int number)
 {
-    for (int i = 0; i < number; ++i) {
-        try {
-            _pizzas.emplace(Resolver::findType(type), Resolver::findSize(size));
-        } catch (const plazza::PizzaException &e) {
-            if (i == 0)
-                std::cerr << e.what() << std::endl;
-        }
+    try {
+        _pizzas.emplace(SerializedPizza(Resolver::findType(type), Resolver::findSize(size)), number);
+    } catch (const plazza::PizzaException &e) {
+        std::cerr << e.what() << std::endl;
     }
 }
 
 plazza::SerializedPizza plazza::Order::takePizza()
 {
-    SerializedPizza pizza = _pizzas.front();
+    auto &pair = _pizzas.front();
+    SerializedPizza pizza = pair.first;
 
-    _pizzas.pop();
+    if (pair.second > 0)
+        --pair.second;
+    if (pair.second == 0)
+        _pizzas.pop();
     return pizza;
 }
 
-bool plazza::Order::isEmpty()
+bool plazza::Order::isEmpty() const
 {
     return _pizzas.empty();
 }

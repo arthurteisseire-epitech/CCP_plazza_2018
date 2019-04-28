@@ -20,9 +20,9 @@ namespace plazza {
         Order() = default;
         void addPizza(const std::string &type, const std::string &size, int number);
         SerializedPizza takePizza();
-        bool isEmpty();
+        bool isEmpty() const;
     private:
-        std::queue<SerializedPizza> _pizzas;
+        std::queue<std::pair<SerializedPizza, int>> _pizzas;
 
         FRIEND_TEST(Order, addPizza);
         FRIEND_TEST(Order, takePizza);
