@@ -48,12 +48,12 @@ void plazza::Cook::preparePizza()
 {
     bool containsEach;
 
-    _status = COOKING;
     _pizzaToPrepare = _queue.front();
     _ingredientsMutex->lock();
     containsEach = _stock.takeEach(_pizzaToPrepare->getIngredients());
     _ingredientsMutex->unlock();
     if (containsEach) {
+        _status = COOKING;
         _queue.pop();
         _pizzasMutex->unlock();
         _pizzaToPrepare->prepare(_cookingTimeMultiplier);

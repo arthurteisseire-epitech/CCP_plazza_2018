@@ -94,20 +94,10 @@ void plazza::Kitchen::kill()
 
 void plazza::Kitchen::isSpaceForPizza()
 {
-    if (isACookWaiting())
+    if (_pizzas.size() < _cooks.size())
         _ipc.sendToParent("yes");
-    else if (_pizzas.size() < _cooks.size())
-        _ipc.sendToParent("in stock");
     else
         _ipc.sendToParent("no");
-}
-
-bool plazza::Kitchen::isACookWaiting()
-{
-    for (auto &cook : this->_cooks)
-        if (cook.getStatus() == Cook::WAITING)
-            return true;
-    return false;
 }
 
 void plazza::Kitchen::sendStatus()

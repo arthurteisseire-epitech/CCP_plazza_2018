@@ -58,7 +58,7 @@ plazza::Process<plazza::Kitchen> *plazza::KitchenManager::findAvailableKitchen()
     for (auto &p : this->_processes) {
         p->send("isSpace");
         s = p->read();
-        if (s == "yes" || s == "in stock") {
+        if (s == "yes") {
 #ifdef PLAZZADEBUG
             std::cout << "is space : ok, send pizza..." << std::endl;
 #endif

@@ -32,7 +32,6 @@ namespace plazza {
         void isSpaceForPizza();
         void sendStatus();
         void managePizza(IPizza *pizza);
-        bool isACookWaiting();
 
         std::vector<Cook> _cooks;
         std::queue<IPizza *> _pizzas;
