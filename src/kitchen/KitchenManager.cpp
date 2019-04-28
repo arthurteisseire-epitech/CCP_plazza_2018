@@ -86,7 +86,7 @@ void plazza::KitchenManager::addFdsToSet(fd_set *set) const
         FD_SET(p->getReadFd(), set);
 }
 
-int plazza::KitchenManager::findMaxFd()
+int plazza::KitchenManager::findMaxFd() const
 {
     int maxFd = 0;
 
@@ -101,7 +101,7 @@ void plazza::KitchenManager::removeKitchen(std::unique_ptr<Process<Kitchen>> &p)
     std::cout << "kitchen destroyed..." << std::endl;
 }
 
-void plazza::KitchenManager::printKitchensStatus()
+void plazza::KitchenManager::printKitchensStatus() const
 {
     std::string kitchenStatus;
 
