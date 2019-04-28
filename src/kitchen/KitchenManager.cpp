@@ -57,7 +57,6 @@ plazza::Process<plazza::Kitchen> *plazza::KitchenManager::findAvailableKitchen()
 
 void plazza::KitchenManager::handleEvents(fd_set *set)
 {
-    std::cout << "nb kitchens : " << _processes.size() << std::endl;
     for (auto &p : _processes)
         if (FD_ISSET(p->getReadFd(), set)) {
             execActionFromInput(p);

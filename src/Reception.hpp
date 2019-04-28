@@ -16,9 +16,10 @@ namespace plazza {
         Reception(double cookingTime, size_t nbCooks, size_t timeToReplaceIngredient);
         void open();
     private:
+        enum Status {END, CONTINUE};
         void waitAnyEvent(fd_set *set);
-        void handleEvents(fd_set *set);
-        void sendOrderFromUserInput();
+        Status handleEvents(fd_set *set);
+        Status sendOrderFromUserInput();
 
         KitchenManager _kitchenManager;
         double _cookingTimeMultiplier;

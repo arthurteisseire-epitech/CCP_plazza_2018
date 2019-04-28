@@ -22,12 +22,13 @@ plazza::Reception::Reception(double cookingTime, size_t nbCooks, size_t timeToRe
 
 void plazza::Reception::open()
 {
+    Status status = CONTINUE;
     fd_set set;
 
     std::cout << "orders> " << std::flush;
-    while (true) {
+    while (status == CONTINUE) {
         waitAnyEvent(&set);
-        handleEvents(&set);
+        status = handleEvents(&set);
     }
 }
 
@@ -39,24 +40,24 @@ void plazza::Reception::waitAnyEvent(fd_set *set)
     select(_kitchenManager.findMaxFd() + 1, set, nullptr, nullptr, nullptr);
 }
 
-void plazza::Reception::handleEvents(fd_set *set)
+plazza::Reception::Status plazza::Reception::handleEvents(fd_set *set)
 {
-    if (FD_ISSET(0, set)) {
-        sendOrderFromUserInput();
-        std::cout << "orders> " << std::flush;
-    }
+    Status status = CONTINUE;
+
+    if (FD_ISSET(0, set))
+        status = sendOrderFromUserInput();
     _kitchenManager.handleEvents(set);
+    return status;
 }
 
-void plazza::Reception::sendOrderFromUserInput()
+plazza::Reception::Status plazza::Reception::sendOrderFromUserInput()
 {
     std::string line;
     Order order;
 
     if (!getline(std::cin, line)) {
-        std::cout << "bye" << std::endl;
         _kitchenManager.destroyKitchensProcesses();
-        exit(0);
+        return END;
     }
     if (line == "status") {
         _kitchenManager.printKitchensStatus();
@@ -64,4 +65,6 @@ void plazza::Reception::sendOrderFromUserInput()
         order = plazza::OrderParser::parseLine(line);
         _kitchenManager.sendOrder(order);
     }
+    std::cout << "orders> " << std::flush;
+    return CONTINUE;
 }
